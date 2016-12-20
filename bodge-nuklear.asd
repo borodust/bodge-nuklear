@@ -20,4 +20,5 @@
                (:file "nuklear")
                (:module spec)
                (:module lib
-                        :components ((:static-file "nuklear.h")))))
+                        :pathname "lib/"
+                        :components ((:static-file "bodge_nuklear.h")))))

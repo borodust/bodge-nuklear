@@ -1,21 +1,23 @@
 # Install
-BIN = libnuklear.1.dylib
+BIN = libnuklear
 
 # Flags
-CFLAGS = -std=c99 -pedantic -O2
+CFLAGS = -std=c99 -pedantic -O2 -Inuklear/
 
 SRC = main.c
 OBJ = $(SRC:.c=.o)
 
 ifeq ($(OS),Windows_NT)
-BIN := $(BIN).exe
-LIBS = -lglfw3 -lopengl32 -lm -lGLU32 -lGLEW32
+BIN := $(BIN).dll
+LIBS = -lm
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Darwin)
-		LIBS = -lglfw -framework OpenGL -lm -lGLEW
+		BIN := $(BIN).dylib
+		LIBS = -lm
 	else
-		LIBS = -lglfw -lGL -lm -lGLU -lGLEW
+		BIN := $(BIN).so
+		LIBS = -lm
 	endif
 endif
 

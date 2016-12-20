@@ -13,4 +13,4 @@ local/
 
 
 # binaries
-lib/libnuklear*
+lib/libnuklear.*
