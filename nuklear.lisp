@@ -14,8 +14,8 @@
 
 (defun make-user-font (height width-callback)
   (c-let ((fnt (:struct (%nk:user-font)) :calloc t))
-    (setf (c-ref fnt %nk:user-font :width) (callback width-callback)
-          (c-ref fnt %nk:user-font :height) height)
+    (setf (fnt :width) (callback width-callback)
+          (fnt :height) height)
     fnt))
 
 
@@ -36,6 +36,6 @@
 
 
 (defmacro docommands ((cmd ctx) &body body)
-  `(loop for ,cmd = (%nk:command-list-begin ,ctx) then (%nk:command-list-next ,ctx ,cmd)
-      until (cffi:null-pointer-p (ptr ,cmd))
-      do (progn ,@body)))
+  (once-only (ctx)
+    `(loop for ,cmd = (%nk:command-list-begin ,ctx) then (%nk:command-list-next ,ctx ,cmd)
+        until (cffi-sys:null-pointer-p (autowrap:ptr ,cmd)) do (progn ,@body))))
