@@ -1,6 +1,13 @@
 (in-package :bodge-nuklear)
 
 
+(define-bitmask-from-enum (panel-flags (:enum (%nk:panel-flags))))
+
+
+(defun panel-mask (&rest opts)
+  (apply #'mask 'panel-flags opts))
+
+
 (defmacro define-font-width-callback (name (handle font-height text) &body body)
   (with-gensyms (f-text len)
     `(defcallback ,name :float ((,handle :pointer)

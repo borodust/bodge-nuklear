@@ -6,8 +6,10 @@
 
 
 (defpackage :bodge-nuklear
+  (:nicknames :nk)
   (:use :cl :autowrap :plus-c :alexandria)
-  (:export make-user-font
+  (:export panel-mask
+           make-user-font
            destroy-user-font
            make-context
            destroy-context
