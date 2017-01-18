@@ -2,7 +2,8 @@
 
 
 (defpackage :%nuklear
-  (:nicknames :%nk))
+  (:nicknames :%nk)
+  (:use))
 
 
 (defpackage :bodge-nuklear
