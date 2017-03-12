@@ -22,7 +22,7 @@
 (defun make-user-font (height width-callback)
   (c-let ((fnt (:struct (%nk:user-font)) :calloc t))
     (setf (fnt :width) (callback width-callback)
-          (fnt :height) height)
+          (fnt :height) (float height 0f0))
     fnt))
 
 
