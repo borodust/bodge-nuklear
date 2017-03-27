@@ -21,4 +21,6 @@
                (:module spec)
                (:module lib
                         :pathname "lib/"
-                        :components ((:static-file "bodge_nuklear.h")))))
+                        :components ((:static-file "bodge_nuklear.h")))
+	       (:module nuklear-lib :pathname "lib/nuklear/")))
+

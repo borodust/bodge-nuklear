@@ -21,6 +21,12 @@ else
 	endif
 endif
 
+build: $(BIN)
+
+
 $(BIN):
-	rm -f $(BIN) $(OBJS)
 	$(CC) -shared $(SRC) $(CFLAGS) -o $(BIN) $(LIBS)
+
+
+clean:
+	rm -f $(BIN) $(OBJS)
