@@ -7,7 +7,7 @@
 
 
 #ifdef _WIN32
-#define BGE_API __declspec(dllexport)
+#define BGE_API extern
 #else
 #define BGE_API
 #endif
