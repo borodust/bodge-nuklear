@@ -16,6 +16,7 @@
  :include-sources ("nuklear.h")
  :include-definitions ("^(__)?(u|u_)?int.{0,2}(ptr)?(_t)?$")
  :no-accessors t
+ :filter-spec-p t
  :symbol-exceptions (("nk__begin" . #.(symbol-name 'command-list-begin))
 		     ("nk__next" . #.(symbol-name 'command-list-next)))
  :symbol-regex (("nk_\\w*" () (lambda (name matches regex)
