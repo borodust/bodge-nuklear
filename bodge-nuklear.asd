@@ -12,14 +12,13 @@
   :author "Pavel Korolev"
   :mailto "dev@borodust.org"
   :license "MIT"
-  :depends-on (alexandria cffi cl-autowrap cl-plus-c)
+  :depends-on (alexandria cffi bodge-autowrap cl-plus-c)
   :serial t
   :components ((:file "packages")
                (:file "libnuklear")
+               (:static-file "bodge_nuklear.h")
                (:file "autowrap")
                (:file "nuklear")
                (:module spec)
-               (:module lib
-                        :pathname "lib/"
-                        :components ((:static-file "bodge_nuklear.h")))
+               (:module lib)
 	       (:module nuklear-lib :pathname "lib/nuklear/")))

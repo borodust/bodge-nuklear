@@ -1,5 +1,5 @@
 #define NK_IMPLEMENTATION
-#include "bodge_nuklear.h"
+#include "../bodge_nuklear.h"
 
 
 void bge_init_color_style_item(struct nk_style_item* item, float r, float g, float b, float a) {
