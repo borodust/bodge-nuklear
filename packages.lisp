@@ -8,7 +8,7 @@
 
 (defpackage :bodge-nuklear
   (:nicknames :nk)
-  (:use :cl :autowrap :plus-c :alexandria)
+  (:use :cl :bodge-autowrap :bodge-plus-c :alexandria)
   (:export panel-mask
            make-user-font
            destroy-user-font

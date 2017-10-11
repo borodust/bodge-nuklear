@@ -7,5 +7,4 @@
  :include-sources ("nuklear.h")
  :symbol-exceptions (("nk__begin" command-list-begin)
 		     ("nk__next" command-list-next))
- :symbol-regex (("(nk|NK)_\\w*" 3)
-		("NK.{1}_\\w*" 4)))
+ :symbol-prefix ("nk_" "NK_" "NK._"))
