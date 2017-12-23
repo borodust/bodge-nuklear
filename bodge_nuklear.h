@@ -3,6 +3,7 @@
 
 #define NK_INCLUDE_DEFAULT_ALLOCATOR
 #define NK_INCLUDE_FIXED_TYPES
+#define NK_BUTTON_TRIGGER_ON_RELEASE
 #include "nuklear.h"
 
 
@@ -29,4 +30,4 @@ BGE_API void bge_style_push_vec2(struct nk_context* context,
 BGE_API void bge_style_push_style_item(struct nk_context* context,
                                        struct nk_style_item* destination,
                                        struct nk_style_item* source);
-#endif // _BODGE_NUKLEAR_H
+#endif
