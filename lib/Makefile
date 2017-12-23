@@ -2,7 +2,7 @@
 BIN = libnuklear
 
 # Flags
-CFLAGS = -std=c99 -pedantic -O2 -fPIC -Inuklear/
+CFLAGS = -std=c89 -pedantic -O2 -fPIC -Inuklear/
 
 SRC = main.c
 OBJ = $(SRC:.c=.o)

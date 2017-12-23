@@ -8,7 +8,7 @@
   (apply #'mask 'panel-flags opts))
 
 
-(defmacro define-font-width-callback (name (handle font-height text) &body body)
+(defmacro define-text-width-callback (name (handle font-height text) &body body)
   (with-gensyms (f-text len)
     `(defcallback ,name :float ((,handle :pointer)
                                 (,font-height :float)

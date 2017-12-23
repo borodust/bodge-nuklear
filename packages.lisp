@@ -14,5 +14,5 @@
            destroy-user-font
            make-context
            destroy-context
-           define-font-width-callback
+           define-text-width-callback
            docommands))
