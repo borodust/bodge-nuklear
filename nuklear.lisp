@@ -45,4 +45,4 @@
 (defmacro docommands ((cmd ctx) &body body)
   (once-only (ctx)
     `(loop for ,cmd = (%nk:command-list-begin ,ctx) then (%nk:command-list-next ,ctx ,cmd)
-        until (cffi-sys:null-pointer-p (bodge-autowrap:ptr ,cmd)) do (progn ,@body))))
+        until (cffi-sys:null-pointer-p (claw:ptr ,cmd)) do (progn ,@body))))

@@ -1,23 +1,15 @@
-(in-package :cl-user)
-
-(defpackage :bodge-nuklear.def
-  (:use :cl :asdf))
-
-(in-package :bodge-nuklear.def)
-
-
-(defsystem bodge-nuklear
+(asdf:defsystem bodge-nuklear
   :description "Wrapper over nuklear IM GUI library for cl-bodge system"
   :version "0.0.1"
   :author "Pavel Korolev"
   :mailto "dev@borodust.org"
   :license "MIT"
-  :depends-on (alexandria cffi bodge-autowrap bodge-plus-c)
+  :depends-on (alexandria cffi claw)
   :serial t
   :components ((:file "packages")
                (:file "libnuklear")
                (:static-file "bodge_nuklear.h")
-               (:file "autowrap")
+               (:file "claw")
                (:file "nuklear")
                (:module spec)
                (:module lib)

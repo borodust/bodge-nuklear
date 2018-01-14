@@ -1,14 +1,11 @@
-(in-package :bodge-nuklear.def)
-
-
-(defpackage :%nuklear
+(cl:defpackage :%nuklear
   (:nicknames :%nk)
   (:use))
 
 
-(defpackage :bodge-nuklear
+(cl:defpackage :bodge-nuklear
   (:nicknames :nk)
-  (:use :cl :bodge-autowrap :bodge-plus-c :alexandria)
+  (:use :cl :claw :alexandria)
   (:export panel-mask
            make-user-font
            destroy-user-font

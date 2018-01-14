@@ -2,10 +2,7 @@
 
 
 (cffi:define-foreign-library (libnuklear
-                              :search-path #.(merge-pathnames
-                                              "lib/"
-                                              (directory-namestring
-                                               (or *compile-file-truename* *load-truename*))))
+                              :search-path (asdf:system-relative-pathname :bodge-nuklear "lib/"))
   (:darwin (:or "libnuklear.1.dylib" "libnuklear.dylib"))
   (:unix (:or "libnuklear.so.1" "libnuklear.so"))
   (:windows "libnuklear.dll"))

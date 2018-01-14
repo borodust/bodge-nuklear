@@ -2,9 +2,9 @@
 BIN = libnuklear
 
 # Flags
-CFLAGS = -std=c89 -pedantic -O2 -fPIC -Inuklear/
+CFLAGS = -std=c89 -pedantic -O2 -fPIC -Inuklear/ -I../
 
-SRC = main.c
+SRC = main.c cbv.c
 OBJ = $(SRC:.c=.o)
 
 ifeq ($(OS),Windows_NT)

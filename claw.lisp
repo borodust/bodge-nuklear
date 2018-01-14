@@ -1,7 +1,4 @@
-(cl:in-package :bodge-nuklear)
-
-
-(bodge-autowrap:c-include "bodge_nuklear.h" bodge-nuklear
+(claw:c-include "bodge_nuklear.h" bodge-nuklear
  :package :%nuklear
  :sysincludes (:nuklear-lib)
  :include-sources ("nuklear.h")
