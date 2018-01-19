@@ -9,7 +9,7 @@ SRC = main.c cbv.c
 OBJ = $(SRC:.c=.o)
 
 ifeq ($(OS),Windows_NT)
-	BIN := $(BIN).dll
+	BIN := $(BIN).dll.bodged
 	LIBS = -lm
 else
 	UNAME_S := $(shell uname -s)

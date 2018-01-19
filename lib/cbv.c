@@ -7,12 +7,12 @@
   #endif
 #endif
 
-__CLAW_API int __claw_nk_begin(struct nk_context* arg0, char* arg1, struct nk_rect* arg2, unsigned int arg3) {
+__CLAW_API int __claw_nk_begin(struct nk_context* arg0, char* arg1, struct nk_rect* arg2, nk_flags arg3) {
   int result = nk_begin(arg0, arg1, (*arg2), arg3);
   return result;
 }
 
-__CLAW_API int __claw_nk_begin_titled(struct nk_context* arg0, char* arg1, char* arg2, struct nk_rect* arg3, unsigned int arg4) {
+__CLAW_API int __claw_nk_begin_titled(struct nk_context* arg0, char* arg1, char* arg2, struct nk_rect* arg3, nk_flags arg4) {
   int result = nk_begin_titled(arg0, arg1, arg2, (*arg3), arg4);
   return result;
 }
@@ -27,12 +27,12 @@ __CLAW_API int __claw_nk_button_image(struct nk_context* arg0, struct nk_image* 
   return result;
 }
 
-__CLAW_API int __claw_nk_button_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, unsigned int arg3) {
+__CLAW_API int __claw_nk_button_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, nk_flags arg3) {
   int result = nk_button_image_label(arg0, (*arg1), arg2, arg3);
   return result;
 }
 
-__CLAW_API int __claw_nk_button_image_label_styled(struct nk_context* arg0, struct nk_style_button* arg1, struct nk_image* arg2, char* arg3, unsigned int arg4) {
+__CLAW_API int __claw_nk_button_image_label_styled(struct nk_context* arg0, struct nk_style_button* arg1, struct nk_image* arg2, char* arg3, nk_flags arg4) {
   int result = nk_button_image_label_styled(arg0, arg1, (*arg2), arg3, arg4);
   return result;
 }
@@ -42,21 +42,21 @@ __CLAW_API int __claw_nk_button_image_styled(struct nk_context* arg0, struct nk_
   return result;
 }
 
-__CLAW_API int __claw_nk_button_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, unsigned int arg4) {
+__CLAW_API int __claw_nk_button_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, nk_flags arg4) {
   int result = nk_button_image_text(arg0, (*arg1), arg2, arg3, arg4);
   return result;
 }
 
-__CLAW_API int __claw_nk_button_image_text_styled(struct nk_context* arg0, struct nk_style_button* arg1, struct nk_image* arg2, char* arg3, int arg4, unsigned int arg5) {
+__CLAW_API int __claw_nk_button_image_text_styled(struct nk_context* arg0, struct nk_style_button* arg1, struct nk_image* arg2, char* arg3, int arg4, nk_flags arg5) {
   int result = nk_button_image_text_styled(arg0, arg1, (*arg2), arg3, arg4, arg5);
   return result;
 }
 
-__CLAW_API void __claw_nk_chart_add_slot_colored(struct nk_context* arg0, int arg1, struct nk_color* arg2, struct nk_color* arg3, int arg4, float arg5, float arg6) {
+__CLAW_API void __claw_nk_chart_add_slot_colored(struct nk_context* arg0, enum nk_chart_type arg1, struct nk_color* arg2, struct nk_color* arg3, int arg4, float arg5, float arg6) {
   nk_chart_add_slot_colored(arg0, arg1, (*arg2), (*arg3), arg4, arg5, arg6);
 }
 
-__CLAW_API int __claw_nk_chart_begin_colored(struct nk_context* arg0, int arg1, struct nk_color* arg2, struct nk_color* arg3, int arg4, float arg5, float arg6) {
+__CLAW_API int __claw_nk_chart_begin_colored(struct nk_context* arg0, enum nk_chart_type arg1, struct nk_color* arg2, struct nk_color* arg3, int arg4, float arg5, float arg6) {
   int result = nk_chart_begin_colored(arg0, arg1, (*arg2), (*arg3), arg4, arg5, arg6);
   return result;
 }
@@ -133,13 +133,13 @@ __CLAW_API void __claw_nk_color_hsva_iv(int* arg0, struct nk_color* arg1) {
   nk_color_hsva_iv(arg0, (*arg1));
 }
 
-__CLAW_API void __claw_nk_color_picker(struct nk_color* arg3, struct nk_context* arg0, struct nk_color* arg1, int arg2) {
+__CLAW_API void __claw_nk_color_picker(struct nk_color* arg3, struct nk_context* arg0, struct nk_color* arg1, enum nk_color_format arg2) {
   struct nk_color result = nk_color_picker(arg0, (*arg1), arg2);
   (*arg3) = result;
 }
 
-__CLAW_API unsigned int __claw_nk_color_u32(struct nk_color* arg0) {
-  unsigned int result = nk_color_u32((*arg0));
+__CLAW_API nk_uint __claw_nk_color_u32(struct nk_color* arg0) {
+  nk_uint result = nk_color_u32((*arg0));
   return result;
 }
 
@@ -173,17 +173,17 @@ __CLAW_API int __claw_nk_combo_begin_label(struct nk_context* arg0, char* arg1, 
   return result;
 }
 
-__CLAW_API int __claw_nk_combo_begin_symbol(struct nk_context* arg0, int arg1, struct nk_vec2* arg2) {
+__CLAW_API int __claw_nk_combo_begin_symbol(struct nk_context* arg0, enum nk_symbol_type arg1, struct nk_vec2* arg2) {
   int result = nk_combo_begin_symbol(arg0, arg1, (*arg2));
   return result;
 }
 
-__CLAW_API int __claw_nk_combo_begin_symbol_label(struct nk_context* arg0, char* arg1, int arg2, struct nk_vec2* arg3) {
+__CLAW_API int __claw_nk_combo_begin_symbol_label(struct nk_context* arg0, char* arg1, enum nk_symbol_type arg2, struct nk_vec2* arg3) {
   int result = nk_combo_begin_symbol_label(arg0, arg1, arg2, (*arg3));
   return result;
 }
 
-__CLAW_API int __claw_nk_combo_begin_symbol_text(struct nk_context* arg0, char* arg1, int arg2, int arg3, struct nk_vec2* arg4) {
+__CLAW_API int __claw_nk_combo_begin_symbol_text(struct nk_context* arg0, char* arg1, int arg2, enum nk_symbol_type arg3, struct nk_vec2* arg4) {
   int result = nk_combo_begin_symbol_text(arg0, arg1, arg2, arg3, (*arg4));
   return result;
 }
@@ -198,12 +198,12 @@ __CLAW_API int __claw_nk_combo_callback(struct nk_context* arg0, void* arg1, voi
   return result;
 }
 
-__CLAW_API int __claw_nk_combo_item_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, unsigned int arg3) {
+__CLAW_API int __claw_nk_combo_item_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, nk_flags arg3) {
   int result = nk_combo_item_image_label(arg0, (*arg1), arg2, arg3);
   return result;
 }
 
-__CLAW_API int __claw_nk_combo_item_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, unsigned int arg4) {
+__CLAW_API int __claw_nk_combo_item_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, nk_flags arg4) {
   int result = nk_combo_item_image_text(arg0, (*arg1), arg2, arg3, arg4);
   return result;
 }
@@ -234,17 +234,17 @@ __CLAW_API void __claw_nk_combobox_string(struct nk_context* arg0, char* arg1, i
   nk_combobox_string(arg0, arg1, arg2, arg3, arg4, (*arg5));
 }
 
-__CLAW_API int __claw_nk_contextual_begin(struct nk_context* arg0, unsigned int arg1, struct nk_vec2* arg2, struct nk_rect* arg3) {
+__CLAW_API int __claw_nk_contextual_begin(struct nk_context* arg0, nk_flags arg1, struct nk_vec2* arg2, struct nk_rect* arg3) {
   int result = nk_contextual_begin(arg0, arg1, (*arg2), (*arg3));
   return result;
 }
 
-__CLAW_API int __claw_nk_contextual_item_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, unsigned int arg3) {
+__CLAW_API int __claw_nk_contextual_item_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, nk_flags arg3) {
   int result = nk_contextual_item_image_label(arg0, (*arg1), arg2, arg3);
   return result;
 }
 
-__CLAW_API int __claw_nk_contextual_item_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, unsigned int arg4) {
+__CLAW_API int __claw_nk_contextual_item_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, nk_flags arg4) {
   int result = nk_contextual_item_image_text(arg0, (*arg1), arg2, arg3, arg4);
   return result;
 }
@@ -360,22 +360,22 @@ __CLAW_API int __claw_nk_input_any_mouse_click_in_rect(struct nk_input* arg0, st
   return result;
 }
 
-__CLAW_API int __claw_nk_input_has_mouse_click_down_in_rect(struct nk_input* arg0, int arg1, struct nk_rect* arg2, int arg3) {
+__CLAW_API int __claw_nk_input_has_mouse_click_down_in_rect(struct nk_input* arg0, enum nk_buttons arg1, struct nk_rect* arg2, int arg3) {
   int result = nk_input_has_mouse_click_down_in_rect(arg0, arg1, (*arg2), arg3);
   return result;
 }
 
-__CLAW_API int __claw_nk_input_has_mouse_click_in_rect(struct nk_input* arg0, int arg1, struct nk_rect* arg2) {
+__CLAW_API int __claw_nk_input_has_mouse_click_in_rect(struct nk_input* arg0, enum nk_buttons arg1, struct nk_rect* arg2) {
   int result = nk_input_has_mouse_click_in_rect(arg0, arg1, (*arg2));
   return result;
 }
 
-__CLAW_API int __claw_nk_input_is_mouse_click_down_in_rect(struct nk_input* arg0, int arg1, struct nk_rect* arg2, int arg3) {
+__CLAW_API int __claw_nk_input_is_mouse_click_down_in_rect(struct nk_input* arg0, enum nk_buttons arg1, struct nk_rect* arg2, int arg3) {
   int result = nk_input_is_mouse_click_down_in_rect(arg0, arg1, (*arg2), arg3);
   return result;
 }
 
-__CLAW_API int __claw_nk_input_is_mouse_click_in_rect(struct nk_input* arg0, int arg1, struct nk_rect* arg2) {
+__CLAW_API int __claw_nk_input_is_mouse_click_in_rect(struct nk_input* arg0, enum nk_buttons arg1, struct nk_rect* arg2) {
   int result = nk_input_is_mouse_click_in_rect(arg0, arg1, (*arg2));
   return result;
 }
@@ -390,7 +390,7 @@ __CLAW_API int __claw_nk_input_is_mouse_prev_hovering_rect(struct nk_input* arg0
   return result;
 }
 
-__CLAW_API int __claw_nk_input_mouse_clicked(struct nk_input* arg0, int arg1, struct nk_rect* arg2) {
+__CLAW_API int __claw_nk_input_mouse_clicked(struct nk_input* arg0, enum nk_buttons arg1, struct nk_rect* arg2) {
   int result = nk_input_mouse_clicked(arg0, arg1, (*arg2));
   return result;
 }
@@ -399,7 +399,7 @@ __CLAW_API void __claw_nk_input_scroll(struct nk_context* arg0, struct nk_vec2* 
   nk_input_scroll(arg0, (*arg1));
 }
 
-__CLAW_API void __claw_nk_label_colored(struct nk_context* arg0, char* arg1, unsigned int arg2, struct nk_color* arg3) {
+__CLAW_API void __claw_nk_label_colored(struct nk_context* arg0, char* arg1, nk_flags arg2, struct nk_color* arg3) {
   nk_label_colored(arg0, arg1, arg2, (*arg3));
 }
 
@@ -446,52 +446,52 @@ __CLAW_API int __claw_nk_menu_begin_image(struct nk_context* arg0, char* arg1, s
   return result;
 }
 
-__CLAW_API int __claw_nk_menu_begin_image_label(struct nk_context* arg0, char* arg1, unsigned int arg2, struct nk_image* arg3, struct nk_vec2* arg4) {
+__CLAW_API int __claw_nk_menu_begin_image_label(struct nk_context* arg0, char* arg1, nk_flags arg2, struct nk_image* arg3, struct nk_vec2* arg4) {
   int result = nk_menu_begin_image_label(arg0, arg1, arg2, (*arg3), (*arg4));
   return result;
 }
 
-__CLAW_API int __claw_nk_menu_begin_image_text(struct nk_context* arg0, char* arg1, int arg2, unsigned int arg3, struct nk_image* arg4, struct nk_vec2* arg5) {
+__CLAW_API int __claw_nk_menu_begin_image_text(struct nk_context* arg0, char* arg1, int arg2, nk_flags arg3, struct nk_image* arg4, struct nk_vec2* arg5) {
   int result = nk_menu_begin_image_text(arg0, arg1, arg2, arg3, (*arg4), (*arg5));
   return result;
 }
 
-__CLAW_API int __claw_nk_menu_begin_label(struct nk_context* arg0, char* arg1, unsigned int arg2, struct nk_vec2* arg3) {
+__CLAW_API int __claw_nk_menu_begin_label(struct nk_context* arg0, char* arg1, nk_flags arg2, struct nk_vec2* arg3) {
   int result = nk_menu_begin_label(arg0, arg1, arg2, (*arg3));
   return result;
 }
 
-__CLAW_API int __claw_nk_menu_begin_symbol(struct nk_context* arg0, char* arg1, int arg2, struct nk_vec2* arg3) {
+__CLAW_API int __claw_nk_menu_begin_symbol(struct nk_context* arg0, char* arg1, enum nk_symbol_type arg2, struct nk_vec2* arg3) {
   int result = nk_menu_begin_symbol(arg0, arg1, arg2, (*arg3));
   return result;
 }
 
-__CLAW_API int __claw_nk_menu_begin_symbol_label(struct nk_context* arg0, char* arg1, unsigned int arg2, int arg3, struct nk_vec2* arg4) {
+__CLAW_API int __claw_nk_menu_begin_symbol_label(struct nk_context* arg0, char* arg1, nk_flags arg2, enum nk_symbol_type arg3, struct nk_vec2* arg4) {
   int result = nk_menu_begin_symbol_label(arg0, arg1, arg2, arg3, (*arg4));
   return result;
 }
 
-__CLAW_API int __claw_nk_menu_begin_symbol_text(struct nk_context* arg0, char* arg1, int arg2, unsigned int arg3, int arg4, struct nk_vec2* arg5) {
+__CLAW_API int __claw_nk_menu_begin_symbol_text(struct nk_context* arg0, char* arg1, int arg2, nk_flags arg3, enum nk_symbol_type arg4, struct nk_vec2* arg5) {
   int result = nk_menu_begin_symbol_text(arg0, arg1, arg2, arg3, arg4, (*arg5));
   return result;
 }
 
-__CLAW_API int __claw_nk_menu_begin_text(struct nk_context* arg0, char* arg1, int arg2, unsigned int arg3, struct nk_vec2* arg4) {
+__CLAW_API int __claw_nk_menu_begin_text(struct nk_context* arg0, char* arg1, int arg2, nk_flags arg3, struct nk_vec2* arg4) {
   int result = nk_menu_begin_text(arg0, arg1, arg2, arg3, (*arg4));
   return result;
 }
 
-__CLAW_API int __claw_nk_menu_item_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, unsigned int arg3) {
+__CLAW_API int __claw_nk_menu_item_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, nk_flags arg3) {
   int result = nk_menu_item_image_label(arg0, (*arg1), arg2, arg3);
   return result;
 }
 
-__CLAW_API int __claw_nk_menu_item_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, unsigned int arg4) {
+__CLAW_API int __claw_nk_menu_item_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, nk_flags arg4) {
   int result = nk_menu_item_image_text(arg0, (*arg1), arg2, arg3, arg4);
   return result;
 }
 
-__CLAW_API int __claw_nk_popup_begin(struct nk_context* arg0, int arg1, char* arg2, unsigned int arg3, struct nk_rect* arg4) {
+__CLAW_API int __claw_nk_popup_begin(struct nk_context* arg0, enum nk_popup_type arg1, char* arg2, nk_flags arg3, struct nk_rect* arg4) {
   int result = nk_popup_begin(arg0, arg1, arg2, arg3, (*arg4));
   return result;
 }
@@ -599,27 +599,27 @@ __CLAW_API void __claw_nk_rgba_iv(struct nk_color* arg1, int* arg0) {
   (*arg1) = result;
 }
 
-__CLAW_API void __claw_nk_rgba_u32(struct nk_color* arg1, unsigned int arg0) {
+__CLAW_API void __claw_nk_rgba_u32(struct nk_color* arg1, nk_uint arg0) {
   struct nk_color result = nk_rgba_u32(arg0);
   (*arg1) = result;
 }
 
-__CLAW_API int __claw_nk_select_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, unsigned int arg3, int arg4) {
+__CLAW_API int __claw_nk_select_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, nk_flags arg3, int arg4) {
   int result = nk_select_image_label(arg0, (*arg1), arg2, arg3, arg4);
   return result;
 }
 
-__CLAW_API int __claw_nk_select_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, unsigned int arg4, int arg5) {
+__CLAW_API int __claw_nk_select_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, nk_flags arg4, int arg5) {
   int result = nk_select_image_text(arg0, (*arg1), arg2, arg3, arg4, arg5);
   return result;
 }
 
-__CLAW_API int __claw_nk_selectable_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, unsigned int arg3, int* arg4) {
+__CLAW_API int __claw_nk_selectable_image_label(struct nk_context* arg0, struct nk_image* arg1, char* arg2, nk_flags arg3, int* arg4) {
   int result = nk_selectable_image_label(arg0, (*arg1), arg2, arg3, arg4);
   return result;
 }
 
-__CLAW_API int __claw_nk_selectable_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, unsigned int arg4, int* arg5) {
+__CLAW_API int __claw_nk_selectable_image_text(struct nk_context* arg0, struct nk_image* arg1, char* arg2, int arg3, nk_flags arg4, int* arg5) {
   int result = nk_selectable_image_text(arg0, (*arg1), arg2, arg3, arg4, arg5);
   return result;
 }
@@ -701,7 +701,7 @@ __CLAW_API void __claw_nk_subimage_ptr(struct nk_image* arg4, void* arg0, unsign
   (*arg4) = result;
 }
 
-__CLAW_API void __claw_nk_text_colored(struct nk_context* arg0, char* arg1, int arg2, unsigned int arg3, struct nk_color* arg4) {
+__CLAW_API void __claw_nk_text_colored(struct nk_context* arg0, char* arg1, int arg2, nk_flags arg3, struct nk_color* arg4) {
   nk_text_colored(arg0, arg1, arg2, arg3, (*arg4));
 }
 
@@ -709,17 +709,17 @@ __CLAW_API void __claw_nk_text_wrap_colored(struct nk_context* arg0, char* arg1,
   nk_text_wrap_colored(arg0, arg1, arg2, (*arg3));
 }
 
-__CLAW_API int __claw_nk_tree_image_push_hashed(struct nk_context* arg0, int arg1, struct nk_image* arg2, char* arg3, int arg4, char* arg5, int arg6, int arg7) {
+__CLAW_API int __claw_nk_tree_image_push_hashed(struct nk_context* arg0, enum nk_tree_type arg1, struct nk_image* arg2, char* arg3, enum nk_collapse_states arg4, char* arg5, int arg6, int arg7) {
   int result = nk_tree_image_push_hashed(arg0, arg1, (*arg2), arg3, arg4, arg5, arg6, arg7);
   return result;
 }
 
-__CLAW_API int __claw_nk_tree_state_image_push(struct nk_context* arg0, int arg1, struct nk_image* arg2, char* arg3, void* arg4) {
+__CLAW_API int __claw_nk_tree_state_image_push(struct nk_context* arg0, enum nk_tree_type arg1, struct nk_image* arg2, char* arg3, enum nk_collapse_states* arg4) {
   int result = nk_tree_state_image_push(arg0, arg1, (*arg2), arg3, arg4);
   return result;
 }
 
-__CLAW_API void __claw_nk_triangle_from_direction(struct nk_vec2* arg0, struct nk_rect* arg1, float arg2, float arg3, int arg4) {
+__CLAW_API void __claw_nk_triangle_from_direction(struct nk_vec2* arg0, struct nk_rect* arg1, float arg2, float arg3, enum nk_heading arg4) {
   nk_triangle_from_direction(arg0, (*arg1), arg2, arg3, arg4);
 }
 
@@ -748,8 +748,8 @@ __CLAW_API void __claw_nk_widget_bounds(struct nk_rect* arg1, struct nk_context*
   (*arg1) = result;
 }
 
-__CLAW_API int __claw_nk_widget_fitting(struct nk_rect* arg0, struct nk_context* arg1, struct nk_vec2* arg2) {
-  int result = nk_widget_fitting(arg0, arg1, (*arg2));
+__CLAW_API enum nk_widget_layout_states __claw_nk_widget_fitting(struct nk_rect* arg0, struct nk_context* arg1, struct nk_vec2* arg2) {
+  enum nk_widget_layout_states result = nk_widget_fitting(arg0, arg1, (*arg2));
   return result;
 }
 
