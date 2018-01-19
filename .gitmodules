@@ -1,3 +1,3 @@
 [submodule "nuklear"]
 	path = lib/nuklear
-	url = git@github.com:vurtun/nuklear.git
+	url = https://github.com/vurtun/nuklear.git

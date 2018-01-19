@@ -4,6 +4,8 @@
 #define NK_INCLUDE_DEFAULT_ALLOCATOR
 #define NK_INCLUDE_FIXED_TYPES
 #define NK_BUTTON_TRIGGER_ON_RELEASE
+#define NK_INCLUDE_VERTEX_BUFFER_OUTPUT
+
 #include "nuklear.h"
 
 #endif

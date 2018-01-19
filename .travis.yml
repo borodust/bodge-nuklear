@@ -1,0 +1,56 @@
+language: c
+sudo: false
+
+addons:
+  apt:
+    packages:
+    - gcc-multilib
+
+env:
+  global:
+    - NAME: nuklear
+    - secure: RgKXKSf+YqDWNjdkF6YHSPmFtxEoyzwB6Y8l+IlhmmCXo9MsUyC5bCkEMOe2fJIVo6DbOFTbOjV/xTAXcMtLZLGoRRFqwPdggSXMxeXohPErul+tc1oipDc8tfEnPSm7ChEA+Tpbp/3cau837NJmioeRz7TVRD4ValTCdFmZLg45qRHxcB6adTFmPOwjq33qCZAHtQOxgJyxmMQ7F3nY3g5+B565ztxOGeKBhYeuDmwBrHYSRHaC5fXGDmO1FjRTun7a+oSbmoOUzSgTh+bSNvSdmp5UoZ6I/Wui2IUTmrQXA7o0sBIiQxNN49BBVby3hX3oh0+f2AzqPQqbZd7l3TKWHrBmEett2KkpraGR3gWprtTTv3AravqpjUUEZru51pPtPCPYN4kNgzGXmDdNhGLIQrnzVjVnXj4Il4KhRBpVTwGLMShybUFdI+y1Btc53wEAl1v0LdouCDMLmmMXHuquzRMCeEL1R+6dPulpX7MOl98AdYmN9F/M9/XiSb4Z2BCfVs00l+a+q52/kD+Ffjt0X8LlafncSWVRVtphoGMb5tLd6BApYufh0XVWQCe0OW8CLdwgPJa2MKXNbJ2Y329mCpG2qXhiWGFiCptO5JRQd3N05yYjAZabEp8FLG3nuLBCarUBAyXnnNWp7tErydufSib5hZNJJPvAbDXWUNM=
+
+matrix:
+  include:
+  - os: linux
+    env:
+      - ARCH=i686
+      - CFLAGS=-m32
+      - EXTENSION=so
+  - os: linux
+    env:
+      - ARCH=x86_64
+      - CFLAGS=-m64
+      - EXTENSION=so
+  - os: osx
+    env:
+      - ARCH=i686
+      - CFLAGS=-m32
+      - EXTENSION=dylib
+  - os: osx
+    env:
+      - ARCH=x86_64
+      - CFLAGS=-m64
+      - EXTENSION=dylib
+
+branches:
+  only:
+  - "/^v\\d+(\\.\\d+)+$/"
+
+
+script:
+  - cd lib/ && make clean build
+
+before_deploy:
+  - export TARGET_FILE=$TRAVIS_BUILD_DIR/lib$NAME.$EXTENSION.bodged-$ARCH-$TRAVIS_OS_NAME-$TRAVIS_BRANCH
+  - mv $TRAVIS_BUILD_DIR/lib/lib$NAME.$EXTENSION.bodged $TARGET_FILE
+
+deploy:
+  provider: releases
+  api-key: $GITHUB_TOKEN
+  file: $TARGET_FILE
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
