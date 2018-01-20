@@ -253,6 +253,86 @@ __CLAW_API void __claw_nk_draw_image(struct nk_command_buffer* arg0, struct nk_r
   nk_draw_image(arg0, (*arg1), arg2, (*arg3));
 }
 
+__CLAW_API void __claw_nk_draw_list_add_image(struct nk_draw_list* arg0, struct nk_image* arg1, struct nk_rect* arg2, struct nk_color* arg3) {
+  nk_draw_list_add_image(arg0, (*arg1), (*arg2), (*arg3));
+}
+
+__CLAW_API void __claw_nk_draw_list_add_text(struct nk_draw_list* arg0, struct nk_user_font* arg1, struct nk_rect* arg2, char* arg3, int arg4, float arg5, struct nk_color* arg6) {
+  nk_draw_list_add_text(arg0, arg1, (*arg2), arg3, arg4, arg5, (*arg6));
+}
+
+__CLAW_API void __claw_nk_draw_list_fill_circle(struct nk_draw_list* arg0, struct nk_vec2* arg1, float arg2, struct nk_color* arg3, unsigned int arg4) {
+  nk_draw_list_fill_circle(arg0, (*arg1), arg2, (*arg3), arg4);
+}
+
+__CLAW_API void __claw_nk_draw_list_fill_poly_convex(struct nk_draw_list* arg0, struct nk_vec2* arg1, unsigned int arg2, struct nk_color* arg3, enum nk_anti_aliasing arg4) {
+  nk_draw_list_fill_poly_convex(arg0, arg1, arg2, (*arg3), arg4);
+}
+
+__CLAW_API void __claw_nk_draw_list_fill_rect(struct nk_draw_list* arg0, struct nk_rect* arg1, struct nk_color* arg2, float arg3) {
+  nk_draw_list_fill_rect(arg0, (*arg1), (*arg2), arg3);
+}
+
+__CLAW_API void __claw_nk_draw_list_fill_rect_multi_color(struct nk_draw_list* arg0, struct nk_rect* arg1, struct nk_color* arg2, struct nk_color* arg3, struct nk_color* arg4, struct nk_color* arg5) {
+  nk_draw_list_fill_rect_multi_color(arg0, (*arg1), (*arg2), (*arg3), (*arg4), (*arg5));
+}
+
+__CLAW_API void __claw_nk_draw_list_fill_triangle(struct nk_draw_list* arg0, struct nk_vec2* arg1, struct nk_vec2* arg2, struct nk_vec2* arg3, struct nk_color* arg4) {
+  nk_draw_list_fill_triangle(arg0, (*arg1), (*arg2), (*arg3), (*arg4));
+}
+
+__CLAW_API void __claw_nk_draw_list_path_arc_to(struct nk_draw_list* arg0, struct nk_vec2* arg1, float arg2, float arg3, float arg4, unsigned int arg5) {
+  nk_draw_list_path_arc_to(arg0, (*arg1), arg2, arg3, arg4, arg5);
+}
+
+__CLAW_API void __claw_nk_draw_list_path_arc_to_fast(struct nk_draw_list* arg0, struct nk_vec2* arg1, float arg2, int arg3, int arg4) {
+  nk_draw_list_path_arc_to_fast(arg0, (*arg1), arg2, arg3, arg4);
+}
+
+__CLAW_API void __claw_nk_draw_list_path_curve_to(struct nk_draw_list* arg0, struct nk_vec2* arg1, struct nk_vec2* arg2, struct nk_vec2* arg3, unsigned int arg4) {
+  nk_draw_list_path_curve_to(arg0, (*arg1), (*arg2), (*arg3), arg4);
+}
+
+__CLAW_API void __claw_nk_draw_list_path_fill(struct nk_draw_list* arg0, struct nk_color* arg1) {
+  nk_draw_list_path_fill(arg0, (*arg1));
+}
+
+__CLAW_API void __claw_nk_draw_list_path_line_to(struct nk_draw_list* arg0, struct nk_vec2* arg1) {
+  nk_draw_list_path_line_to(arg0, (*arg1));
+}
+
+__CLAW_API void __claw_nk_draw_list_path_rect_to(struct nk_draw_list* arg0, struct nk_vec2* arg1, struct nk_vec2* arg2, float arg3) {
+  nk_draw_list_path_rect_to(arg0, (*arg1), (*arg2), arg3);
+}
+
+__CLAW_API void __claw_nk_draw_list_path_stroke(struct nk_draw_list* arg0, struct nk_color* arg1, enum nk_draw_list_stroke arg2, float arg3) {
+  nk_draw_list_path_stroke(arg0, (*arg1), arg2, arg3);
+}
+
+__CLAW_API void __claw_nk_draw_list_stroke_circle(struct nk_draw_list* arg0, struct nk_vec2* arg1, float arg2, struct nk_color* arg3, unsigned int arg4, float arg5) {
+  nk_draw_list_stroke_circle(arg0, (*arg1), arg2, (*arg3), arg4, arg5);
+}
+
+__CLAW_API void __claw_nk_draw_list_stroke_curve(struct nk_draw_list* arg0, struct nk_vec2* arg1, struct nk_vec2* arg2, struct nk_vec2* arg3, struct nk_vec2* arg4, struct nk_color* arg5, unsigned int arg6, float arg7) {
+  nk_draw_list_stroke_curve(arg0, (*arg1), (*arg2), (*arg3), (*arg4), (*arg5), arg6, arg7);
+}
+
+__CLAW_API void __claw_nk_draw_list_stroke_line(struct nk_draw_list* arg0, struct nk_vec2* arg1, struct nk_vec2* arg2, struct nk_color* arg3, float arg4) {
+  nk_draw_list_stroke_line(arg0, (*arg1), (*arg2), (*arg3), arg4);
+}
+
+__CLAW_API void __claw_nk_draw_list_stroke_poly_line(struct nk_draw_list* arg0, struct nk_vec2* arg1, unsigned int arg2, struct nk_color* arg3, enum nk_draw_list_stroke arg4, float arg5, enum nk_anti_aliasing arg6) {
+  nk_draw_list_stroke_poly_line(arg0, arg1, arg2, (*arg3), arg4, arg5, arg6);
+}
+
+__CLAW_API void __claw_nk_draw_list_stroke_rect(struct nk_draw_list* arg0, struct nk_rect* arg1, struct nk_color* arg2, float arg3, float arg4) {
+  nk_draw_list_stroke_rect(arg0, (*arg1), (*arg2), arg3, arg4);
+}
+
+__CLAW_API void __claw_nk_draw_list_stroke_triangle(struct nk_draw_list* arg0, struct nk_vec2* arg1, struct nk_vec2* arg2, struct nk_vec2* arg3, struct nk_color* arg4, float arg5) {
+  nk_draw_list_stroke_triangle(arg0, (*arg1), (*arg2), (*arg3), (*arg4), arg5);
+}
+
 __CLAW_API void __claw_nk_draw_text(struct nk_command_buffer* arg0, struct nk_rect* arg1, char* arg2, int arg3, struct nk_user_font* arg4, struct nk_color* arg5, struct nk_color* arg6) {
   nk_draw_text(arg0, (*arg1), arg2, arg3, arg4, (*arg5), (*arg6));
 }
