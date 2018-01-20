@@ -6,7 +6,8 @@
 (cl:defpackage :bodge-nuklear
   (:nicknames :nk)
   (:use :cl :claw :alexandria)
-  (:export panel-mask
+  (:export libnuklear
+           panel-mask
            make-user-font
            destroy-user-font
            make-context

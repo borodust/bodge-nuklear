@@ -6,6 +6,3 @@
   (:darwin "libnuklear.dylib.bodged")
   (:unix "libnuklear.so.bodged")
   (:windows "libnuklear.dll.bodged"))
-
-
-(cffi:use-foreign-library libnuklear)
