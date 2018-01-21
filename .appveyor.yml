@@ -21,6 +21,7 @@ skip_non_tags: true
 
 branches:
   only:
+    - master
     - "/^v\\d+(\\.\\d+)+$/"
 
 install:

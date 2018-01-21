@@ -1,10 +1,13 @@
 #include "bodge_nuklear.h"
 #ifndef __CLAW_API
-  #ifdef __cplusplus
-    #define __CLAW_API extern "C"
+  #if defined(_WIN32)
+    #define __CLAW_API __declspec(dllexport)
   #else
     #define __CLAW_API
   #endif
+#endif
+#if defined(__cplusplus)
+extern "C" {
 #endif
 
 __CLAW_API int __claw_nk_begin(struct nk_context* arg0, char* arg1, struct nk_rect* arg2, nk_flags arg3) {
@@ -889,3 +892,6 @@ __CLAW_API void __claw_nk_window_set_position(struct nk_context* arg0, char* arg
 __CLAW_API void __claw_nk_window_set_size(struct nk_context* arg0, char* arg1, struct nk_vec2* arg2) {
   nk_window_set_size(arg0, arg1, (*arg2));
 }
+#if defined(__cplusplus)
+}
+#endif
