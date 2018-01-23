@@ -10,12 +10,12 @@ environment:
     ARCH: x86_64
     CFLAGS: -m64
     PATH: C:\msys64\mingw64\bin\;C:\msys64\usr\bin\;$(PATH)
-    PACKAGES: mingw-w64-i686-toolchain mingw-w64-i686-cmake
+    PACKAGES: mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
   - platform: x86
     ARCH: i686
     CFLAGS: -m32
     PATH: C:\msys64\mingw32\bin\;C:\msys64\usr\bin\;$(PATH)
-    PACKAGES: mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+    PACKAGES: mingw-w64-i686-toolchain mingw-w64-i686-cmake
 
 skip_non_tags: true
 
