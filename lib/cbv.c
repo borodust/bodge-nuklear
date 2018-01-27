@@ -1,10 +1,12 @@
 #include "bodge_nuklear.h"
 #ifndef __CLAW_API
-  #if defined(_WIN32)
-    #define __CLAW_API __declspec(dllexport)
-  #else
-    #define __CLAW_API
-  #endif
+#  if defined(_WIN32)
+#    define __CLAW_API __declspec(dllexport)
+#  elif defined(__GNUC__)
+#    define __CLAW_API __attribute__((visibility("default")))
+#  else
+#    define __CLAW_API
+#  endif
 #endif
 #if defined(__cplusplus)
 extern "C" {
@@ -62,6 +64,11 @@ __CLAW_API void __claw_nk_chart_add_slot_colored(struct nk_context* arg0, enum n
 __CLAW_API int __claw_nk_chart_begin_colored(struct nk_context* arg0, enum nk_chart_type arg1, struct nk_color* arg2, struct nk_color* arg3, int arg4, float arg5, float arg6) {
   int result = nk_chart_begin_colored(arg0, arg1, (*arg2), (*arg3), arg4, arg5, arg6);
   return result;
+}
+
+__CLAW_API void __claw_nk_color_cf(struct nk_colorf* arg1, struct nk_color* arg0) {
+  struct nk_colorf result = nk_color_cf((*arg0));
+  (*arg1) = result;
 }
 
 __CLAW_API void __claw_nk_color_d(double* arg0, double* arg1, double* arg2, double* arg3, struct nk_color* arg4) {
@@ -136,14 +143,22 @@ __CLAW_API void __claw_nk_color_hsva_iv(int* arg0, struct nk_color* arg1) {
   nk_color_hsva_iv(arg0, (*arg1));
 }
 
-__CLAW_API void __claw_nk_color_picker(struct nk_color* arg3, struct nk_context* arg0, struct nk_color* arg1, enum nk_color_format arg2) {
-  struct nk_color result = nk_color_picker(arg0, (*arg1), arg2);
+__CLAW_API void __claw_nk_color_picker(struct nk_colorf* arg3, struct nk_context* arg0, struct nk_colorf* arg1, enum nk_color_format arg2) {
+  struct nk_colorf result = nk_color_picker(arg0, (*arg1), arg2);
   (*arg3) = result;
 }
 
 __CLAW_API nk_uint __claw_nk_color_u32(struct nk_color* arg0) {
   nk_uint result = nk_color_u32((*arg0));
   return result;
+}
+
+__CLAW_API void __claw_nk_colorf_hsva_f(float* arg0, float* arg1, float* arg2, float* arg3, struct nk_colorf* arg4) {
+  nk_colorf_hsva_f(arg0, arg1, arg2, arg3, (*arg4));
+}
+
+__CLAW_API void __claw_nk_colorf_hsva_fv(float* arg0, struct nk_colorf* arg1) {
+  nk_colorf_hsva_fv(arg0, (*arg1));
 }
 
 __CLAW_API int __claw_nk_combo(struct nk_context* arg0, char** arg1, int arg2, int arg3, int arg4, struct nk_vec2* arg5) {
@@ -404,6 +419,16 @@ __CLAW_API void __claw_nk_hsva_bv(struct nk_color* arg1, unsigned char* arg0) {
   (*arg1) = result;
 }
 
+__CLAW_API void __claw_nk_hsva_colorf(struct nk_colorf* arg4, float arg0, float arg1, float arg2, float arg3) {
+  struct nk_colorf result = nk_hsva_colorf(arg0, arg1, arg2, arg3);
+  (*arg4) = result;
+}
+
+__CLAW_API void __claw_nk_hsva_colorfv(struct nk_colorf* arg1, float* arg0) {
+  struct nk_colorf result = nk_hsva_colorfv(arg0);
+  (*arg1) = result;
+}
+
 __CLAW_API void __claw_nk_hsva_f(struct nk_color* arg4, float arg0, float arg1, float arg2, float arg3) {
   struct nk_color result = nk_hsva_f(arg0, arg1, arg2, arg3);
   (*arg4) = result;
@@ -632,6 +657,11 @@ __CLAW_API void __claw_nk_rgb_bv(struct nk_color* arg1, unsigned char* arg0) {
   (*arg1) = result;
 }
 
+__CLAW_API void __claw_nk_rgb_cf(struct nk_color* arg1, struct nk_colorf* arg0) {
+  struct nk_color result = nk_rgb_cf((*arg0));
+  (*arg1) = result;
+}
+
 __CLAW_API void __claw_nk_rgb_f(struct nk_color* arg3, float arg0, float arg1, float arg2) {
   struct nk_color result = nk_rgb_f(arg0, arg1, arg2);
   (*arg3) = result;
@@ -659,6 +689,11 @@ __CLAW_API void __claw_nk_rgba(struct nk_color* arg4, int arg0, int arg1, int ar
 
 __CLAW_API void __claw_nk_rgba_bv(struct nk_color* arg1, unsigned char* arg0) {
   struct nk_color result = nk_rgba_bv(arg0);
+  (*arg1) = result;
+}
+
+__CLAW_API void __claw_nk_rgba_cf(struct nk_color* arg1, struct nk_colorf* arg0) {
+  struct nk_color result = nk_rgba_cf((*arg0));
   (*arg1) = result;
 }
 
