@@ -3,7 +3,7 @@
   (:use))
 
 
-(cl:defpackage :bodge-nuklear
+(cl:defpackage :nuklear
   (:nicknames :nk)
   (:use :cl :claw :alexandria)
   (:export libnuklear
@@ -13,4 +13,5 @@
            make-context
            destroy-context
            define-text-width-callback
+           command-type
            docommands))

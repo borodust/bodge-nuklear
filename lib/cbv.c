@@ -379,6 +379,11 @@ __CLAW_API void __claw_nk_fill_triangle(struct nk_command_buffer* arg0, float ar
   nk_fill_triangle(arg0, arg1, arg2, arg3, arg4, arg5, arg6, (*arg7));
 }
 
+__CLAW_API void __claw_nk_font_config(struct nk_font_config* arg1, float arg0) {
+  struct nk_font_config result = nk_font_config(arg0);
+  (*arg1) = result;
+}
+
 __CLAW_API void __claw_nk_get_null_rect(struct nk_rect* arg0) {
   struct nk_rect result = nk_get_null_rect();
   (*arg0) = result;

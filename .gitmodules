@@ -1,3 +1,6 @@
 [submodule "nuklear"]
 	path = lib/nuklear
 	url = https://github.com/vurtun/nuklear.git
+[submodule "lib/glad"]
+	path = lib/glad
+	url = https://github.com/borodust/bodge-glad.git

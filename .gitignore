@@ -13,4 +13,6 @@ local/
 
 
 # binaries
-lib/libnuklear.*
+lib/*.so*
+lib/*.dylib*
+lib/*.dll*

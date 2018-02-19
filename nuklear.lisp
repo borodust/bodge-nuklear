@@ -1,4 +1,4 @@
-(in-package :bodge-nuklear)
+(in-package :nuklear)
 
 
 (define-bitmask-from-enum (panel-flags (:enum (%nk:panel-flags))))
@@ -19,9 +19,10 @@
          (float (progn ,@body) 0f0)))))
 
 
-(defun make-user-font (height width-callback)
+(defun make-user-font (height width-callback &optional (user-data-ptr (cffi:null-pointer)))
   (c-let ((fnt (:struct (%nk:user-font)) :calloc t))
-    (setf (fnt :width) (callback width-callback)
+    (setf (fnt :userdata :ptr) user-data-ptr
+          (fnt :width) (callback width-callback)
           (fnt :height) (float height 0f0))
     fnt))
 
@@ -42,7 +43,12 @@
     (free ctx)))
 
 
+(defun command-type (cmd)
+  (claw:enum-key '(:enum (%nk:command-type)) (c-ref cmd (:struct (%nk:command)) :type)))
+
+
 (defmacro docommands ((cmd ctx) &body body)
   (once-only (ctx)
     `(loop for ,cmd = (%nk:command-list-begin ,ctx) then (%nk:command-list-next ,ctx ,cmd)
-        until (cffi-sys:null-pointer-p (claw:ptr ,cmd)) do (progn ,@body))))
+           until (cffi-sys:null-pointer-p (claw:ptr ,cmd))
+           do (progn ,@body))))

@@ -1,4 +1,4 @@
-(in-package :bodge-nuklear)
+(in-package :nuklear)
 
 
 (cffi:define-foreign-library (libnuklear
