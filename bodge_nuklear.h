@@ -9,6 +9,16 @@
 #define NK_INCLUDE_FONT_BAKING
 #define NK_INCLUDE_DEFAULT_FONT
 
+#ifndef NK_API
+#  if defined(_WIN32)
+#    define NK_API __declspec(dllexport)
+#  elif defined(__GNUC__)
+#    define NK_API __attribute__((visibility("default")))
+#  else
+#    define NK_API extern
+#  endif
+#endif
+
 #include "nuklear.h"
 
 struct nk_bodge_renderer;
