@@ -1,7 +1,8 @@
 #define NK_IMPLEMENTATION
-#include "../bodge_nuklear.h"
+#include "bodge_nuklear.h"
 #include "glad/glad.h"
 
+/* adpated from https://github.com/vurtun/nuklear/blob/2891c6afbc5781b700cbad6f6d771f1f214f6b56/demo/glfw_opengl3/nuklear_glfw_gl3.h */
 
 struct nk_bodge_vertex {
     float position[2];
@@ -12,6 +13,7 @@ struct nk_bodge_vertex {
 struct nk_bodge_renderer {
   struct nk_buffer cmds;
   struct nk_draw_null_texture null;
+  struct nk_font_atlas atlas;
   GLuint vbo, vao, ebo;
   GLuint prog;
   GLuint vert_shdr;
@@ -22,7 +24,6 @@ struct nk_bodge_renderer {
   GLint uniform_tex;
   GLint uniform_proj;
   GLuint font_tex;
-  struct nk_font_atlas atlas;
   int max_vertex_buffer;
   int max_element_buffer;
 };
@@ -33,7 +34,34 @@ struct nk_bodge_renderer {
   #define NK_SHADER_VERSION "#version 300 es\n"
 #endif
 
-NK_API struct nk_bodge_renderer*
+void
+nk_bodge_renderer_upload_atlas(struct nk_bodge_renderer *dev, const void *image, int width, int height)
+{
+  glGenTextures(1, &dev->font_tex);
+  glBindTexture(GL_TEXTURE_2D, dev->font_tex);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)width, (GLsizei)height, 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, image);
+}
+
+void
+nk_bodge_font_stash_begin(struct nk_bodge_renderer *renderer)
+{
+  nk_font_atlas_init_default(&renderer->atlas);
+  nk_font_atlas_begin(&renderer->atlas);
+}
+
+void
+nk_bodge_font_stash_end(struct nk_bodge_renderer *renderer)
+{
+  const void *image; int w, h;
+  image = nk_font_atlas_bake(&renderer->atlas, &w, &h, NK_FONT_ATLAS_RGBA32);
+  nk_bodge_renderer_upload_atlas(renderer, image, w, h);
+  nk_font_atlas_end(&renderer->atlas, nk_handle_id((int)renderer->font_tex), &renderer->null);
+}
+
+struct nk_bodge_renderer*
 nk_bodge_renderer_create(int max_vertex_buffer, int max_element_buffer)
 {
   GLint status;
@@ -116,21 +144,19 @@ nk_bodge_renderer_create(int max_vertex_buffer, int max_element_buffer)
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
+
+  nk_bodge_font_stash_begin(dev);
+  nk_bodge_font_stash_end(dev);
   return dev;
 }
 
-void
-nk_bodge_renderer_upload_atlas(struct nk_bodge_renderer *dev, const void *image, int width, int height)
+struct nk_font*
+nk_bodge_renderer_font(struct nk_bodge_renderer *renderer)
 {
-  glGenTextures(1, &dev->font_tex);
-  glBindTexture(GL_TEXTURE_2D, dev->font_tex);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)width, (GLsizei)height, 0,
-               GL_RGBA, GL_UNSIGNED_BYTE, image);
+  return &renderer->atlas.default_font->handle;
 }
 
-NK_API void
+void
 nk_bodge_renderer_destroy(struct nk_bodge_renderer *dev)
 {
   glDetachShader(dev->prog, dev->vert_shdr);
@@ -145,7 +171,7 @@ nk_bodge_renderer_destroy(struct nk_bodge_renderer *dev)
   nk_font_atlas_clear(&dev->atlas);
 }
 
-NK_API void
+void
 nk_bodge_render(struct nk_context* ctx, struct nk_bodge_renderer *dev, int width, int height, float pixel_ratio)
 {
   enum nk_anti_aliasing AA = NK_ANTI_ALIASING_ON;
@@ -232,7 +258,6 @@ nk_bodge_render(struct nk_context* ctx, struct nk_bodge_renderer *dev, int width
         glDrawElements(GL_TRIANGLES, (GLsizei)cmd->elem_count, GL_UNSIGNED_SHORT, offset);
         offset += cmd->elem_count;
       }
-    nk_clear(ctx);
   }
 
   /* default OpenGL state */
@@ -242,21 +267,4 @@ nk_bodge_render(struct nk_context* ctx, struct nk_bodge_renderer *dev, int width
   glBindVertexArray(0);
   glDisable(GL_BLEND);
   glDisable(GL_SCISSOR_TEST);
-}
-
-
-NK_API void
-nk_bodge_font_stash_begin(struct nk_bodge_renderer *renderer)
-{
-  nk_font_atlas_init_default(&renderer->atlas);
-  nk_font_atlas_begin(&renderer->atlas);
-}
-
-NK_API void
-nk_bodge_font_stash_end(struct nk_bodge_renderer *renderer)
-{
-  const void *image; int w, h;
-  image = nk_font_atlas_bake(&renderer->atlas, &w, &h, NK_FONT_ATLAS_RGBA32);
-  nk_bodge_renderer_upload_atlas(renderer, image, w, h);
-  nk_font_atlas_end(&renderer->atlas, nk_handle_id((int)renderer->font_tex), &renderer->null);
 }

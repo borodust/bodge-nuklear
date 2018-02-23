@@ -3,6 +3,7 @@
   (:export run))
 (cl:in-package :nuklear.example)
 
+
 (defvar *window-width* 800)
 (defvar *window-height* 600)
 
@@ -11,8 +12,7 @@
   (nk-context
    (nk-renderer :initform nil)
    (pixel-ratio :initform 0f0)
-   (level :initform :easy)
-   (nvg-renderer :initform nil))
+   (level :initform :easy))
   (:default-initargs
    :opengl-version '(3 3)
    :window-title "Nuklear Example"
@@ -21,16 +21,15 @@
 
 
 (defmethod clutz:init ((this nuklear-app))
-  (with-slots (nk-context nk-renderer nvg-renderer) this
-    (setf nvg-renderer (nnk:make-renderer)
-          nk-context (nk:make-context (nnk:renderer-font nvg-renderer))
-          nk-renderer (nuklear.renderer:make-renderer nk-context))))
+  (with-slots (nk-context nk-renderer) this
+    (setf nk-context (nk:make-context)
+          nk-renderer (nk:make-renderer))
+    (%nk:style-set-font nk-context (nk:renderer-font nk-renderer))))
 
 
 (defmethod clutz:destroy ((this nuklear-app))
-  (with-slots (nk-context nk-renderer nvg-renderer) this
-    (nuklear.renderer:destroy-renderer nk-renderer)
-    (nnk:destroy-renderer nvg-renderer)
+  (with-slots (nk-context nk-renderer) this
+    (nk:destroy-renderer nk-renderer)
     (nk:destroy-context nk-context)))
 
 
@@ -69,16 +68,9 @@
 
 
 (defmethod clutz:render ((this nuklear-app))
-  (with-slots (nk-context nk-renderer nvg-renderer) this
+  (with-slots (nk-context nk-renderer) this
     (gl:clear-color 0.5f0 0.5f0 0.5f0 1f0)
     (gl:clear :color-buffer-bit)
-
-    (let ((renderer :nvg))
-      (if (eq renderer :nvg)
-          (%nk:style-set-font nk-context (claw:ptr (nnk:renderer-font nvg-renderer)))
-          (claw:c-let ((atlas (:struct (%nk:font-atlas))
-                              :from (nk.renderer::nk-renderer-font-atlas nk-renderer)))
-            (%nk:style-set-font nk-context (atlas :default-font :handle))))
 
       (register-input this)
       (compose-nuklear this)
@@ -86,9 +78,7 @@
       (let* ((window-size (clutz:window-size this))
              (width (aref window-size 0))
              (height (aref window-size 1)))
-        (if (eq renderer :nvg)
-            (nnk:render-nuklear nvg-renderer nk-context width height)
-            (nk.renderer:render-nuklear nk-renderer nk-context width height))))
+        (nk:render-nuklear nk-renderer nk-context width height))
 
     (%nk:clear nk-context)))
 

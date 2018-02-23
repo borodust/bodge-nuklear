@@ -17,18 +17,12 @@ NK_API struct nk_bodge_renderer*
 nk_bodge_renderer_create(int max_vertex_buffer, int max_element_buffer);
 
 NK_API void
-nk_bodge_renderer_upload_atlas(struct nk_bodge_renderer *renderer, const void *image, int width, int height);
+nk_bodge_render(struct nk_context* ctx, struct nk_bodge_renderer *renderer, int width, int height, float pixel_ratio);
 
-NK_API void
-nk_bodge_render(struct nk_context* ctx, struct nk_bodge_renderer *dev, int width, int height, float pixel_ratio);
+NK_API struct nk_font*
+nk_bodge_renderer_font(struct nk_bodge_renderer *renderer);
 
 NK_API void
 nk_bodge_renderer_destroy(struct nk_bodge_renderer *renderer);
-
-NK_API void
-nk_bodge_font_stash_begin(struct nk_bodge_renderer *renderer);
-
-NK_API void
-nk_bodge_font_stash_end(struct nk_bodge_renderer *renderer);
 
 #endif

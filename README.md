@@ -1,5 +1,34 @@
 [![Build Status](https://travis-ci.org/borodust/bodge-nuklear.svg)](https://travis-ci.org/borodust/bodge-nuklear) [![Build status](https://ci.appveyor.com/api/projects/status/di06oa6mp64el65a?svg=true)](https://ci.appveyor.com/project/borodust/bodge-nuklear)
 
-# bodge nuklear wrapper
+# BODGE-NUKLEAR
 
-Wrapper over `nuklear` IM GUI library for `cl-bodge` system.
+Wrapper over [`Nuklear`](https://github.com/vurtun/nuklear) immediate mode GUI library.
+
+# Requirements
+
+* ASDF/Quicklisp
+* x86_64/i686 GNU/Linux, macOS or Windows
+
+# Loading
+```lisp
+(ql:quickload '(nuklear-blob bodge-nuklear))
+```
+
+# Usage
+
+### Interface
+All wrapped functions can be found in `%nk` package. On the other hand, `nk` package contains
+minimally lispified wrappers and utility functions.
+
+Native Nuklear vertex buffer-backed renderer is included. See `#'make-renderer` and
+`#'render-nuklear` functions.
+
+# Example
+Example on how to use nuklear and included renderer can be found in
+[`example.lisp`](example.lisp). See `#'compose-nuklear` function.
+
+To run it, evaluate in your REPL:
+```lisp
+(ql:quickload :bodge-nuklear/example)
+(nuklear.example:run)
+```

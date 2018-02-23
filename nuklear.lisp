@@ -1,5 +1,8 @@
 (in-package :nuklear)
 
+(defvar *max-vertex-buffer-size* (* 512 1024))
+(defvar *max-element-buffer-size* (* 128 1024))
+
 
 (define-bitmask-from-enum (panel-flags (:enum (%nk:panel-flags))))
 
@@ -31,7 +34,7 @@
   (free font))
 
 
-(defun make-context (font)
+(defun make-context (&optional font)
   (c-let ((ctx (:struct (%nk:context)) :calloc t))
     (%nk:init-default ctx font)
     ctx))
@@ -52,3 +55,27 @@
     `(loop for ,cmd = (%nk:command-list-begin ,ctx) then (%nk:command-list-next ,ctx ,cmd)
            until (cffi-sys:null-pointer-p (claw:ptr ,cmd))
            do (progn ,@body))))
+
+;;;
+;;; RENDERING
+;;;
+(defstruct nk-renderer
+  handle)
+
+
+(defun renderer-font (renderer)
+  (%nk:bodge-renderer-font (nk-renderer-handle renderer)))
+
+
+(defun make-renderer ()
+  (make-nk-renderer :handle (%nk:bodge-renderer-create *max-vertex-buffer-size*
+                                                       *max-element-buffer-size*)))
+
+
+(defun destroy-renderer (renderer)
+  (%nk:bodge-renderer-destroy (nk-renderer-handle renderer)))
+
+
+(defun render-nuklear (renderer context width height &optional (pixel-ratio 1f0))
+  (%nk:bodge-render context (nk-renderer-handle renderer)
+                    (floor width) (floor height) (float pixel-ratio 0f0)))
