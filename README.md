@@ -20,8 +20,12 @@ Wrapper over [`Nuklear`](https://github.com/vurtun/nuklear) immediate mode GUI l
 All wrapped functions can be found in `%nk` package. On the other hand, `nk` package contains
 minimally lispified wrappers and utility functions.
 
-Native Nuklear vertex buffer-backed renderer is included. See `#'make-renderer` and
+Native Nuklear OpenGL-based vertex buffer-backed renderer is included. See `#'make-renderer` and
 `#'render-nuklear` functions.
+
+To use the renderer you additionally need to load `bodge-glad` and `glad-blob` and invoke
+`(glad:init)` in the thread with valid OpenGL 3+ context before any call to the renderer to
+initialize required OpenGL entrypoints.
 
 # Example
 Example on how to use nuklear and included renderer can be found in
