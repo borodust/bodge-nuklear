@@ -54,7 +54,8 @@
   (once-only (ctx)
     `(loop for ,cmd = (%nk:command-list-begin ,ctx) then (%nk:command-list-next ,ctx ,cmd)
            until (cffi-sys:null-pointer-p (claw:ptr ,cmd))
-           do (progn ,@body))))
+           do (progn ,@body)
+           finally (return (values)))))
 
 ;;;
 ;;; RENDERING

@@ -12,7 +12,6 @@
 (defclass nuklear-app (clutz:application)
   (nk-context
    (nk-renderer :initform nil)
-   (pixel-ratio :initform 0f0)
    (level :initform :easy)
    (compression :initform (claw:calloc :float))
    (background-color :initform (claw:calloc '(:struct (%nk:colorf)))))
