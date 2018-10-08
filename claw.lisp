@@ -1,5 +1,5 @@
 (claw:c-include "bodge_nuklear.h" bodge-nuklear
-  :in-package :%nuklear
+  :in-package (:%nuklear :%nk)
   :sysincludes (:nuklear-lib)
   :include-sources ("nuklear.h")
   :rename-symbols (claw:in-pipeline

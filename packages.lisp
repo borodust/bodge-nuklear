@@ -1,8 +1,3 @@
-(cl:defpackage :%nuklear
-  (:nicknames :%nk)
-  (:use))
-
-
 (cl:defpackage :nuklear
   (:nicknames :nk)
   (:use :cl :claw :alexandria)
