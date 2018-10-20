@@ -75,7 +75,7 @@
               (%nk:layout-row-dynamic nk-context 120f0 1)
               (claw:memcpy background-color
                            (%nk:color-picker color-f nk-context background-color %nk:+rgba+)
-                           :type '(:struct (%nk:colorf)))
+                           1 '(:struct (%nk:colorf)))
               (%nk:layout-row-dynamic nk-context 24f0 1)
               (claw:c-let ((bg (:struct (%nk:colorf)) :from background-color))
                 (setf (bg :r) (%nk:propertyf nk-context "#R:" 0f0 (bg :r) 1f0 0.0f0 0.005f0)

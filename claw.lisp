@@ -1,7 +1,7 @@
 (claw:c-include "bodge_nuklear.h" bodge-nuklear
   :in-package (:%nuklear :%nk)
   :sysincludes (:nuklear-lib)
-  :include-sources ("nuklear.h")
+  :include-definitions ("(nk|NK).?_\\w*")
   :rename-symbols (claw:in-pipeline
                    (claw:by-changing "nk__begin" 'command-list-begin)
                    (claw:by-changing "nk__next" 'command-list-next)
