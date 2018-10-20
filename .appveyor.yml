@@ -4,15 +4,16 @@ image:
 environment:
   global:
     NAME: nuklear
+    ASDF_SYSTEM: bodge-nuklear
     secure:
   matrix:
   - platform: x64
-    ARCH: x86_64
+    TARGET_ARCH: x86_64
     CFLAGS: -m64
     PATH: C:\msys64\mingw64\bin\;C:\msys64\usr\bin\;$(PATH)
     PACKAGES: mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
   - platform: x86
-    ARCH: i686
+    TARGET_ARCH: i686
     CFLAGS: -m32
     PATH: C:\msys64\mingw32\bin\;C:\msys64\usr\bin\;$(PATH)
     PACKAGES: mingw-w64-i686-toolchain mingw-w64-i686-cmake
@@ -26,16 +27,37 @@ branches:
 
 install:
   - git submodule update --init --recursive
+  - >
+    sh -c "
+    pacman --needed --noconfirm -S zip unzip base-devel %PACKAGES%
+    && curl -L http://bodge.borodust.org/files/install.sh | sh
+    "
 
 build_script:
-  - set TARGET_ARTIFACT=lib%NAME%.dll.bodged-%ARCH%-windows-%APPVEYOR_REPO_TAG_NAME%
-  - pacman -S --needed --noconfirm base-devel %PACKAGES%
-  - sh -c "CFLAGS=%CFLAGS% cd lib/ && make clean build"
-  - mv %APPVEYOR_BUILD_FOLDER%\lib\lib%NAME%.dll.bodged %APPVEYOR_BUILD_FOLDER%\%TARGET_ARTIFACT%
+  - set APPVEYOR_BUILD_DIR=$(cygpath -u '%APPVEYOR_BUILD_FOLDER%')
+  - set TARGET_NAME=lib%NAME%
+  - set TARGET_VERSION=%TARGET_ARCH%-windows-%APPVEYOR_REPO_TAG_NAME%
+  - set TARGET_ARTIFACT=%TARGET_NAME%.dll-%TARGET_VERSION%
+  - set SPEC_ARCHIVE=%TARGET_ARTIFACT%-spec.zip
+  - >
+    sh -c "
+    CFLAGS=%CFLAGS% cd lib/ && make clean build
+    && export PATH=$HOME/bin/:$PATH
+    && rm -rf %APPVEYOR_BUILD_DIR%/spec/*
+    && ln -s %APPVEYOR_BUILD_DIR%/ ~/quicklisp/local-projects/
+    && $HOME/bin/lisp %APPVEYOR_BUILD_DIR%/util/regen-spec.lisp '%ASDF_SYSTEM%' t %TARGET_ARCH%
+    && cd ~/quicklisp/local-projects/%ASDF_SYSTEM%/ && zip -r spec.zip spec/
+    && mv ~/quicklisp/local-projects/%ASDF_SYSTEM%/spec.zip %APPVEYOR_BUILD_DIR%/
+    "
+  - mv %APPVEYOR_BUILD_FOLDER%\lib\%TARGET_NAME%.dll.bodged %APPVEYOR_BUILD_FOLDER%\%TARGET_ARTIFACT%
+  - mv %APPVEYOR_BUILD_FOLDER%\spec.zip %APPVEYOR_BUILD_FOLDER%\%SPEC_ARCHIVE%
 
 artifacts:
   - path: $(TARGET_ARTIFACT)
     name: target_artifact
+
+  - path: $(SPEC_ARCHIVE)
+    name: spec_archive
 
 deploy:
   provider: GitHub
@@ -44,7 +66,7 @@ deploy:
   description: $(APPVEYOR_REPO_COMMIT_MESSAGE)
   auth_token:
     secure: Z5XWjDOBlCrmfz3SQAjnLKtdgI5B2b/owJhRPNWYGrI+qwVNbBc4cZiroBZReWP7
-  artifact: target_artifact
+  artifact: target_artifact, spec_archive
   force_update: true
   draft: false
   prerelease: false

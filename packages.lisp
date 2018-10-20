@@ -1,8 +1,7 @@
 (cl:defpackage :nuklear
   (:nicknames :nk)
   (:use :cl :claw :alexandria)
-  (:export #:libnuklear
-           #:panel-mask
+  (:export #:panel-mask
            #:make-user-font
            #:destroy-user-font
            #:make-context

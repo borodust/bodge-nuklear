@@ -7,7 +7,6 @@
   :depends-on (alexandria cffi claw)
   :serial t
   :components ((:file "packages")
-               (:file "libnuklear")
                (:static-file "bodge_nuklear.h")
                (:file "claw")
                (:file "nuklear")

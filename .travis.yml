@@ -9,47 +9,60 @@ addons:
 env:
   global:
     - NAME: nuklear
+    - ASDF_SYSTEM: bodge-nuklear
     - secure: RgKXKSf+YqDWNjdkF6YHSPmFtxEoyzwB6Y8l+IlhmmCXo9MsUyC5bCkEMOe2fJIVo6DbOFTbOjV/xTAXcMtLZLGoRRFqwPdggSXMxeXohPErul+tc1oipDc8tfEnPSm7ChEA+Tpbp/3cau837NJmioeRz7TVRD4ValTCdFmZLg45qRHxcB6adTFmPOwjq33qCZAHtQOxgJyxmMQ7F3nY3g5+B565ztxOGeKBhYeuDmwBrHYSRHaC5fXGDmO1FjRTun7a+oSbmoOUzSgTh+bSNvSdmp5UoZ6I/Wui2IUTmrQXA7o0sBIiQxNN49BBVby3hX3oh0+f2AzqPQqbZd7l3TKWHrBmEett2KkpraGR3gWprtTTv3AravqpjUUEZru51pPtPCPYN4kNgzGXmDdNhGLIQrnzVjVnXj4Il4KhRBpVTwGLMShybUFdI+y1Btc53wEAl1v0LdouCDMLmmMXHuquzRMCeEL1R+6dPulpX7MOl98AdYmN9F/M9/XiSb4Z2BCfVs00l+a+q52/kD+Ffjt0X8LlafncSWVRVtphoGMb5tLd6BApYufh0XVWQCe0OW8CLdwgPJa2MKXNbJ2Y329mCpG2qXhiWGFiCptO5JRQd3N05yYjAZabEp8FLG3nuLBCarUBAyXnnNWp7tErydufSib5hZNJJPvAbDXWUNM=
 
 matrix:
   include:
   - os: linux
     env:
-      - ARCH=i686
+      - TARGET_ARCH=i686
       - CFLAGS=-m32
       - EXTENSION=so
+      - LIBNAME=lib$NAME.$EXTENSION
   - os: linux
     env:
-      - ARCH=x86_64
+      - TARGET_ARCH=x86_64
       - CFLAGS=-m64
       - EXTENSION=so
+      - LIBNAME=lib$NAME.$EXTENSION
   - os: osx
     env:
-      - ARCH=i686
+      - TARGET_ARCH=i686
       - CFLAGS=-m32
       - EXTENSION=dylib
+      - LIBNAME=lib$NAME.$EXTENSION
   - os: osx
     env:
-      - ARCH=x86_64
+      - TARGET_ARCH=x86_64
       - CFLAGS=-m64
       - EXTENSION=dylib
+      - LIBNAME=lib$NAME.$EXTENSION
 
 branches:
   only:
   - "/^v\\d+(\\.\\d+)+$/"
 
+install:
+  - curl -L http://bodge.borodust.org/files/install.sh | sh
+  - ln -s $TRAVIS_BUILD_DIR/ ~/quicklisp/local-projects/$ASDF_SYSTEM
 
 script:
   - cd lib/ && make clean build
+  - rm -rf $TRAVIS_BUILD_DIR/spec/*
+  - lisp "$TRAVIS_BUILD_DIR/util/regen-spec.lisp" "$ASDF_SYSTEM" t $TARGET_ARCH
+  - cd $TRAVIS_BUILD_DIR/ && zip -r spec.zip spec/
 
 before_deploy:
-  - export TARGET_FILE=$TRAVIS_BUILD_DIR/lib$NAME.$EXTENSION.bodged-$ARCH-$TRAVIS_OS_NAME-$TRAVIS_BRANCH
-  - mv $TRAVIS_BUILD_DIR/lib/lib$NAME.$EXTENSION.bodged $TARGET_FILE
+  - export TARGET_FILE=$TRAVIS_BUILD_DIR/$LIBNAME-$TARGET_ARCH-$TRAVIS_OS_NAME-$TRAVIS_BRANCH
+  - export SPEC_ARCHIVE=$TARGET_FILE-spec.zip
+  - mv $TRAVIS_BUILD_DIR/lib/$LIBNAME.bodged $TARGET_FILE
+  - mv $TRAVIS_BUILD_DIR/spec.zip $SPEC_ARCHIVE
 
 deploy:
   provider: releases
   api-key: $GITHUB_TOKEN
-  file: $TARGET_FILE
+  file: [$TARGET_FILE, $SPEC_ARCHIVE]
   skip_cleanup: true
   overwrite: true
   on:
