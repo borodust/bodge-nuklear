@@ -21,6 +21,7 @@
   :author "Pavel Korolev"
   :mailto "dev@borodust.org"
   :license "MIT"
-  :depends-on (alexandria cl-opengl cffi claw clutz
-                          nuklear-blob bodge-nuklear)
+  :depends-on (alexandria cl-opengl claw bodge-host bodge-glad
+                          nuklear-blob bodge-nuklear bordeaux-threads
+                          cl-muth)
   :components ((:file "example")))
