@@ -7,6 +7,11 @@
 (define-bitmask-from-enum (panel-flags (:enum (%nk:panel-flags))))
 
 
+(defmacro with-vec2 ((vec) &body body)
+  `(claw:c-with ((,vec (:struct (%nk:vec2)) :calloc t))
+     ,@body))
+
+
 (defun panel-mask (&rest opts)
   (apply #'mask 'panel-flags opts))
 
