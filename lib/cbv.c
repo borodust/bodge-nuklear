@@ -1,5 +1,6 @@
 #include "bodge_nuklear.h"
-#ifndef __CLAW_API
+
+#if !defined(__CLAW_API)
 #  if defined(_WIN32)
 #    define __CLAW_API __declspec(dllexport)
 #  elif defined(__GNUC__)
@@ -8,9 +9,11 @@
 #    define __CLAW_API
 #  endif
 #endif
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
+
 
 __CLAW_API int __claw_nk_begin(struct nk_context* arg0, char* arg1, struct nk_rect* arg2, nk_flags arg3) {
   int result = nk_begin(arg0, arg1, (*arg2), arg3);
@@ -453,6 +456,10 @@ __CLAW_API void __claw_nk_image(struct nk_context* arg0, struct nk_image* arg1) 
   nk_image(arg0, (*arg1));
 }
 
+__CLAW_API void __claw_nk_image_color(struct nk_context* arg0, struct nk_image* arg1, struct nk_color* arg2) {
+  nk_image_color(arg0, (*arg1), (*arg2));
+}
+
 __CLAW_API void __claw_nk_image_handle(struct nk_image* arg1, nk_handle arg0) {
   struct nk_image result = nk_image_handle(arg0);
   (*arg1) = result;
@@ -832,6 +839,11 @@ __CLAW_API void __claw_nk_text_wrap_colored(struct nk_context* arg0, char* arg1,
   nk_text_wrap_colored(arg0, arg1, arg2, (*arg3));
 }
 
+__CLAW_API int __claw_nk_tree_element_image_push_hashed(struct nk_context* arg0, enum nk_tree_type arg1, struct nk_image* arg2, char* arg3, enum nk_collapse_states arg4, int* arg5, char* arg6, int arg7, int arg8) {
+  int result = nk_tree_element_image_push_hashed(arg0, arg1, (*arg2), arg3, arg4, arg5, arg6, arg7, arg8);
+  return result;
+}
+
 __CLAW_API int __claw_nk_tree_image_push_hashed(struct nk_context* arg0, enum nk_tree_type arg1, struct nk_image* arg2, char* arg3, enum nk_collapse_states arg4, char* arg5, int arg6, int arg7) {
   int result = nk_tree_image_push_hashed(arg0, arg1, (*arg2), arg3, arg4, arg5, arg6, arg7);
   return result;
@@ -932,6 +944,7 @@ __CLAW_API void __claw_nk_window_set_position(struct nk_context* arg0, char* arg
 __CLAW_API void __claw_nk_window_set_size(struct nk_context* arg0, char* arg1, struct nk_vec2* arg2) {
   nk_window_set_size(arg0, arg1, (*arg2));
 }
+
 #if defined(__cplusplus)
 }
 #endif
