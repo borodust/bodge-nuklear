@@ -2,7 +2,10 @@
 
 # BODGE-NUKLEAR
 
-Wrapper over [`Nuklear`](https://github.com/vurtun/nuklear) immediate mode GUI library.
+Thin wrapper over [`Nuklear`](https://github.com/vurtun/nuklear) immediate mode
+GUI library. For rich lispified system based on this wrapper have a look at
+[`bodge-ui-window`](https://github.com/borodust/bodge-ui-window) and
+[`bodge-ui`](https://github.com/borodust/bodge-ui).
 
 # Requirements
 
