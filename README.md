@@ -20,18 +20,11 @@ GUI library. For rich lispified system based on this wrapper have a look at
 # Usage
 
 ### Interface
-All wrapped functions can be found in `%nk` package. On the other hand, `nk` package contains
-minimally lispified wrappers and utility functions.
-
-Native Nuklear OpenGL-based vertex buffer-backed renderer is included. See `#'make-renderer` and
-`#'render-nuklear` functions.
-
-To use the renderer you additionally need to load `bodge-glad` and `glad-blob` and invoke
-`(glad:init)` in the thread with valid OpenGL 3+ context before any call to the renderer to
-initialize required OpenGL entrypoints.
+All wrapped functions can be found in `%nk` package. On the other hand, `nk`
+package contains minimally lispified wrappers and utility functions.
 
 # Example
-Example on how to use nuklear and included renderer can be found in
+Example on how to use nuklear and a native renderer can be found in
 [`example.lisp`](example.lisp). See `#'compose-nuklear` function.
 
 To run it, evaluate in your REPL:

@@ -96,7 +96,7 @@
       (let* ((window-size (bodge-host:viewport-size this))
              (width (bodge-host:x window-size))
              (height (bodge-host:y window-size)))
-        (nk:render-nuklear nk-renderer nk-context width height))
+        (nk-renderer:render-nuklear nk-renderer nk-context width height))
 
     (%nk:clear nk-context)))
 
@@ -113,19 +113,19 @@
                (glad:init)
                (setf (bodge-host:swap-interval) 1
                      nk-context (nk:make-context)
-                     nk-renderer (nk:make-renderer)
+                     nk-renderer (nk-renderer:make-renderer)
                      (color-v :r) 0.10f0
                      (color-v :g) 0.18f0
                      (color-v :b) 0.24f0
                      (color-v :a) 1f0)
-               (%nk:style-set-font nk-context (nk:renderer-font nk-renderer))
+               (%nk:style-set-font nk-context (nk-renderer:renderer-font nk-renderer))
                (unwind-protect
                     (loop while enabled-p
                           do (render this)
                              (bodge-host:swap-buffers this))
                  (unwind-protect
                       (progn
-                        (nk:destroy-renderer nk-renderer)
+                        (nk-renderer:destroy-renderer nk-renderer)
                         (nk:destroy-context nk-context)
                         (claw:free background-color)
                         (claw:free compression))

@@ -6,10 +6,10 @@
   :license "MIT"
   :depends-on (alexandria cffi claw)
   :serial t
-  :components ((:file "packages")
+  :components ((:file "src/packages")
                (:static-file "bodge_nuklear.h")
-               (:file "claw")
-               (:file "nuklear")
+               (:file "src/claw")
+               (:file "src/nuklear")
                (:module spec)
                (:module lib)
 	       (:module nuklear-lib :pathname "lib/nuklear/")))
@@ -22,6 +22,8 @@
   :mailto "dev@borodust.org"
   :license "MIT"
   :depends-on (alexandria cl-opengl claw bodge-host bodge-glad
-                          nuklear-blob bodge-nuklear bordeaux-threads
+                          nuklear-blob bodge-nuklear
+                          bodge-nuklear-renderer
+                          bordeaux-threads
                           cl-muth)
-  :components ((:file "example")))
+  :components ((:file "src/example")))

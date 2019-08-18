@@ -11,8 +11,4 @@
            #:define-text-width-callback
 
            #:command-type
-           #:docommands
-           #:make-renderer
-           #:destroy-renderer
-           #:renderer-font
-           #:render-nuklear))
+           #:docommands))

@@ -61,27 +61,3 @@
            until (cffi-sys:null-pointer-p (claw:ptr ,cmd))
            do (progn ,@body)
            finally (return (values)))))
-
-;;;
-;;; RENDERING
-;;;
-(defstruct nk-renderer
-  handle)
-
-
-(defun renderer-font (renderer)
-  (%nk:bodge-renderer-font (nk-renderer-handle renderer)))
-
-
-(defun make-renderer ()
-  (make-nk-renderer :handle (%nk:bodge-renderer-create *max-vertex-buffer-size*
-                                                       *max-element-buffer-size*)))
-
-
-(defun destroy-renderer (renderer)
-  (%nk:bodge-renderer-destroy (nk-renderer-handle renderer)))
-
-
-(defun render-nuklear (renderer context width height &optional (pixel-ratio 1f0))
-  (%nk:bodge-render context (nk-renderer-handle renderer)
-                    (floor width) (floor height) (float pixel-ratio 0f0)))
