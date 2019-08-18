@@ -23,7 +23,7 @@
   :license "MIT"
   :depends-on (alexandria cl-opengl claw bodge-host bodge-glad
                           nuklear-blob bodge-nuklear
-                          bodge-nuklear-renderer
+                          nuklear-renderer-blob bodge-nuklear-renderer
                           bordeaux-threads
                           cl-muth)
   :components ((:file "src/example")))
