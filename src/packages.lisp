@@ -1,6 +1,6 @@
 (cl:defpackage :nuklear
   (:nicknames :nk)
-  (:use :cl :claw :alexandria)
+  (:use :cl :claw :alexandria :cffi-c-ref)
   (:export #:with-vec2
 
            #:panel-mask

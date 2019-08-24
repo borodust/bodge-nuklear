@@ -38,26 +38,12 @@ build_script:
   - set TARGET_NAME=lib%NAME%
   - set TARGET_VERSION=%TARGET_ARCH%-windows-%APPVEYOR_REPO_TAG_NAME%
   - set TARGET_ARTIFACT=%TARGET_NAME%.dll-%TARGET_VERSION%
-  - set SPEC_ARCHIVE=%TARGET_ARTIFACT%-spec.zip
-  - >
-    sh -c "
-    CFLAGS=%CFLAGS% cd lib/ && make clean build
-    && export PATH=$HOME/bin/:$PATH
-    && rm -rf %APPVEYOR_BUILD_DIR%/spec/*
-    && ln -s %APPVEYOR_BUILD_DIR%/ ~/quicklisp/local-projects/
-    && $HOME/bin/lisp %APPVEYOR_BUILD_DIR%/util/regen-spec.lisp '%ASDF_SYSTEM%' t %TARGET_ARCH%
-    && cd ~/quicklisp/local-projects/%ASDF_SYSTEM%/ && zip -r spec.zip spec/
-    && mv ~/quicklisp/local-projects/%ASDF_SYSTEM%/spec.zip %APPVEYOR_BUILD_DIR%/
-    "
-  - mv %APPVEYOR_BUILD_FOLDER%\lib\%TARGET_NAME%.dll.bodged %APPVEYOR_BUILD_FOLDER%\%TARGET_ARTIFACT%
-  - mv %APPVEYOR_BUILD_FOLDER%\spec.zip %APPVEYOR_BUILD_FOLDER%\%SPEC_ARCHIVE%
+  - sh -c "CFLAGS=%CFLAGS% cd src/lib/ && make clean build"
+  - mv %APPVEYOR_BUILD_FOLDER%\src\lib\%TARGET_NAME%.dll.bodged %APPVEYOR_BUILD_FOLDER%\%TARGET_ARTIFACT%
 
 artifacts:
   - path: $(TARGET_ARTIFACT)
     name: target_artifact
-
-  - path: $(SPEC_ARCHIVE)
-    name: spec_archive
 
 deploy:
   provider: GitHub
@@ -66,7 +52,7 @@ deploy:
   description: $(APPVEYOR_REPO_COMMIT_MESSAGE)
   auth_token:
     secure: Z5XWjDOBlCrmfz3SQAjnLKtdgI5B2b/owJhRPNWYGrI+qwVNbBc4cZiroBZReWP7
-  artifact: target_artifact, spec_archive
+  artifact: target_artifact
   force_update: true
   draft: false
   prerelease: false

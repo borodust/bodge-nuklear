@@ -1,2 +1,2 @@
-spec/*.spec linguist-vendored
-lib/nuklear.h linguist-vendored
+**/*.spec linguist-vendored
+src/lib/ linguist-vendored

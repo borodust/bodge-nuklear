@@ -1,5 +1,5 @@
 (cl:defpackage :nuklear.example
-  (:use :cl)
+  (:use :cl :cffi-c-ref)
   (:export run))
 (cl:in-package :nuklear.example)
 
@@ -13,11 +13,12 @@
   ((nk-context)
    (nk-renderer :initform nil)
    (level :initform :easy)
-   (compression :initform (claw:calloc :float))
-   (background-color :initform (claw:calloc '(:struct (%nk:colorf))))
+   (compression :initform (cffi:foreign-alloc :float :initial-element 0f0))
+   (background-color :initform (c-let ((color (:struct %nk:colorf) :alloc t :clear t))
+                                 (color &)))
    (rendering-thread)
    (enabled-p :initform nil)
-   (exit-latch))
+   (exit-latch :initform nil))
   (:default-initargs
    :opengl-version '(3 3)
    :title "Nuklear Example"
@@ -27,10 +28,13 @@
 
 (defun compose-nuklear (app)
   (with-slots (nk-context level compression background-color) app
-    (claw:c-with ((rect (:struct (%nk:rect))))
-      (let ((val (%nk:begin nk-context "Demo" (%nk:rect rect 50f0 50f0 230f0 250f0)
-                            (logior %nk:+window-border+ %nk:+window-movable+ %nk:+window-scalable+
-                                    %nk:+window-minimizable+ %nk:+window-title+))))
+    (c-with ((rect (:struct %nk:rect)))
+      (let ((val (%nk:begin nk-context "Demo" (%nk:rect (rect &) 50f0 50f0 230f0 250f0)
+                            (nk:panel-mask :border :movable
+                                           :scalable :minimizable
+                                           :title)
+                            #++(logior %nk:+window-border+ %nk:+window-movable+ %nk:+window-scalable+
+                                       %nk:+window-minimizable+ %nk:+window-title+))))
         (unless (= val 0)
           (%nk:layout-row-static nk-context 30f0 80 1)
           (unless (= (%nk:button-label nk-context "button") 0)
@@ -46,21 +50,26 @@
           (%nk:property-float nk-context "Compression:" 0f0 compression 100f0 10f0 1f0)
 
           (%nk:layout-row-dynamic nk-context 20f0 1)
-          (%nk:label nk-context "background:" %nk:+text-left+)
+          (%nk:label nk-context "background:"
+                     (cffi:foreign-enum-value '%nuklear:text-align :left))
 
           (%nk:layout-row-dynamic nk-context 25f0 1)
-          (claw:c-with ((color (:struct (%nk:color)))
-                        (color-f (:struct (%nk:colorf)))
-                        (size (:struct (%nk:vec2))))
+          (c-with ((color (:struct %nk:color))
+                   (color-f (:struct %nk:colorf))
+                   (size (:struct %nk:vec2)))
             (setf (size :x) (%nk:widget-width nk-context)
                   (size :y) 400f0)
-            (unless (= (%nk:combo-begin-color nk-context (%nk:rgb-cf color background-color) size) 0)
+            (unless (= (%nk:combo-begin-color nk-context (%nk:rgb-cf (color &)
+                                                                     background-color)
+                                              (size &))
+                       0)
               (%nk:layout-row-dynamic nk-context 120f0 1)
-              (claw:memcpy background-color
-                           (%nk:color-picker color-f nk-context background-color %nk:+rgba+)
-                           1 '(:struct (%nk:colorf)))
+              (%libc.es:memcpy background-color
+                               (%nk:color-picker (color-f &)
+                                                 nk-context background-color :rgba)
+                               (cffi:foreign-type-size '(:struct %nk:colorf)))
               (%nk:layout-row-dynamic nk-context 24f0 1)
-              (claw:c-let ((bg (:struct (%nk:colorf)) :from background-color))
+              (c-let ((bg (:struct %nk:colorf) :from background-color))
                 (setf (bg :r) (%nk:propertyf nk-context "#R:" 0f0 (bg :r) 1f0 0.0f0 0.005f0)
                       (bg :g) (%nk:propertyf nk-context "#G:" 0f0 (bg :g) 1f0 0.0f0 0.005f0)
                       (bg :b) (%nk:propertyf nk-context "#B:" 0f0 (bg :b) 1f0 0.0f0 0.005f0)
@@ -75,7 +84,7 @@
     (let* ((cursor (bodge-host:cursor-position app))
            (cursor-x (floor (bodge-host:x cursor)))
            (cursor-y (floor (bodge-host:y cursor))))
-      (%nk:input-button nk-context %nk:+button-left+ cursor-x cursor-y
+      (%nk:input-button nk-context :left cursor-x cursor-y
                         (case (bodge-host:mouse-button-state app :left)
                           (:pressed %nk:+true+)
                           (:released %nk:+false+)))
@@ -86,7 +95,7 @@
 
 (defun render (this)
   (with-slots (nk-context nk-renderer background-color) this
-    (claw:c-let ((color-v (:struct (%nk:colorf)) :from background-color))
+    (c-let ((color-v (:struct %nk:colorf) :from background-color))
       (gl:clear-color (color-v :r) (color-v :g) (color-v :b) 1f0))
     (gl:clear :color-buffer-bit)
 
@@ -105,7 +114,7 @@
   (with-slots (nk-context nk-renderer background-color enabled-p compression
                rendering-thread exit-latch)
       this
-    (claw:c-let ((color-v (:struct (%nk:colorf)) :from background-color))
+    (c-let ((color-v (:struct %nk:colorf) :from background-color))
       (setf enabled-p t
             exit-latch (mt:make-latch))
       (flet ((%render ()
@@ -127,8 +136,8 @@
                       (progn
                         (nk-renderer:destroy-renderer nk-renderer)
                         (nk:destroy-context nk-context)
-                        (claw:free background-color)
-                        (claw:free compression))
+                        (cffi:foreign-free background-color)
+                        (cffi:foreign-free compression))
                    (mt:open-latch exit-latch)))))
         (setf rendering-thread (bt:make-thread #'%render))))))
 
