@@ -5,7 +5,6 @@ environment:
   global:
     NAME: nuklear
     ASDF_SYSTEM: bodge-nuklear
-    secure:
   matrix:
   - platform: x64
     TARGET_ARCH: x86_64
@@ -26,24 +25,29 @@ branches:
     - "/^v\\d+(\\.\\d+)+$/"
 
 install:
-  - git submodule update --init --recursive
+  - git submodule update --init --recursive --depth=2
   - >
     sh -c "
     pacman --needed --noconfirm -S zip unzip base-devel %PACKAGES%
-    && curl -L http://bodge.borodust.org/files/install.sh | sh
-    "
+    && curl -L http://bodge.borodust.org/files/install.sh | sh"
 
 build_script:
-  - set APPVEYOR_BUILD_DIR=$(cygpath -u '%APPVEYOR_BUILD_FOLDER%')
   - set TARGET_NAME=lib%NAME%
   - set TARGET_VERSION=%TARGET_ARCH%-windows-%APPVEYOR_REPO_TAG_NAME%
   - set TARGET_ARTIFACT=%TARGET_NAME%.dll-%TARGET_VERSION%
-  - sh -c "CFLAGS=%CFLAGS% cd src/lib/ && make clean build"
+  - set TARGET_SPEC=%TARGET_ARTIFACT%-spec.zip
+  - >
+    sh -c "
+    CFLAGS=%CFLAGS% cd src/lib/
+    && make clean build
+    && ~/.bodge/bin/lisp regen-local-spec-and-zip --arch %TARGET_ARCH% \"$(cygpath -u '%APPVEYOR_BUILD_FOLDER%')\" %ASDF_SYSTEM% \"$(cygpath -u '%APPVEYOR_BUILD_FOLDER%\%TARGET_SPEC%')\""
   - mv %APPVEYOR_BUILD_FOLDER%\src\lib\%TARGET_NAME%.dll.bodged %APPVEYOR_BUILD_FOLDER%\%TARGET_ARTIFACT%
 
 artifacts:
   - path: $(TARGET_ARTIFACT)
     name: target_artifact
+  - path: $(TARGET_SPEC)
+    name: target_spec
 
 deploy:
   provider: GitHub
@@ -52,7 +56,7 @@ deploy:
   description: $(APPVEYOR_REPO_COMMIT_MESSAGE)
   auth_token:
     secure: Z5XWjDOBlCrmfz3SQAjnLKtdgI5B2b/owJhRPNWYGrI+qwVNbBc4cZiroBZReWP7
-  artifact: target_artifact
+  artifact: target_artifact, target_spec
   force_update: true
   draft: false
   prerelease: false

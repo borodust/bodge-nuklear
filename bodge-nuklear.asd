@@ -1,5 +1,5 @@
 (asdf:defsystem :bodge-nuklear
-  :description "Wrapper over nuklear IM GUI library for cl-bodge system"
+  :description "Wrapper over Nuklear IM GUI library"
   :version "1.0.0"
   :author "Pavel Korolev"
   :mailto "dev@borodust.org"
