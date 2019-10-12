@@ -26,10 +26,8 @@ branches:
 
 install:
   - git submodule update --init --recursive --depth=2
-  - >
-    sh -c "
-    pacman --needed --noconfirm -S zip unzip base-devel %PACKAGES%
-    && curl -L http://bodge.borodust.org/files/install.sh | sh"
+  - pacman --needed --noconfirm -S zip unzip base-devel %PACKAGES%
+  - curl -L http://bodge.borodust.org/files/install.sh | sh
 
 build_script:
   - set TARGET_NAME=lib%NAME%
