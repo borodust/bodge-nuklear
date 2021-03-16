@@ -5,6 +5,7 @@
 
 
 (claw-utils:define-bitfield-from-enum panel-flags %nk:panel-flags)
+(claw-utils:define-bitfield-from-enum window-flags %nk:window-flags)
 
 
 (defmacro with-vec2 ((vec) &body body)
@@ -14,6 +15,10 @@
 
 (defun panel-mask (&rest opts)
   (cffi:foreign-bitfield-value 'panel-flags opts))
+
+
+(defun window-mask (&rest opts)
+  (cffi:foreign-bitfield-value 'window-flags opts))
 
 
 (defmacro define-text-width-callback (name (handle font-height text) &body body)

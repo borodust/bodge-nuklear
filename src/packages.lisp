@@ -4,6 +4,7 @@
   (:export #:with-vec2
 
            #:panel-mask
+           #:window-mask
            #:make-user-font
            #:destroy-user-font
            #:make-context
