@@ -4,12 +4,12 @@
 (defvar *max-element-buffer-size* (* 128 1024))
 
 
-(claw-utils:define-bitfield-from-enum panel-flags %nk:panel-flags)
-(claw-utils:define-bitfield-from-enum window-flags %nk:window-flags)
+(claw-utils:define-bitfield-from-enum panel-flags %nuklear:panel-flags)
+(claw-utils:define-bitfield-from-enum window-flags %nuklear:window-flags)
 
 
 (defmacro with-vec2 ((vec) &body body)
-  `(c-with ((,vec (:struct (%nk:vec2)) :clear t))
+  `(c-with ((,vec (:struct (%nuklear:vec2)) :clear t))
      ,@body))
 
 
@@ -34,7 +34,7 @@
 
 (defun make-user-font (height width-callback
                        &optional (user-data-ptr (cffi:null-pointer)))
-  (c-let ((fnt (:struct %nk:user-font) :alloc t :clear t))
+  (c-let ((fnt (:struct %nuklear:user-font) :alloc t :clear t))
     (setf (fnt :userdata :ptr) user-data-ptr
           (fnt :width) (cffi:get-callback width-callback)
           (fnt :height) (float height 0f0))
@@ -46,25 +46,25 @@
 
 
 (defun make-context (&optional font)
-  (c-let ((ctx (:struct %nk:context) :alloc t :clear t))
-    (%nk:init-default (ctx &) font)
+  (c-let ((ctx (:struct %nuklear:context) :alloc t :clear t))
+    (%nuklear:init-default (ctx &) font)
     (ctx &)))
 
 
 (defun destroy-context (ctx)
   (unwind-protect
-       (%nk:free ctx)
+       (%nuklear:free ctx)
     (cffi:foreign-free ctx)))
 
 
 (defun command-type (cmd)
-  (cffi:foreign-enum-keyword '%nk:command-type
-                             (c-ref cmd (:struct %nk:command) :type)))
+  (cffi:foreign-enum-keyword '%nuklear:command-type
+                             (c-ref cmd (:struct %nuklear:command) :type)))
 
 
 (defmacro docommands ((cmd ctx) &body body)
   (once-only (ctx)
-    `(loop for ,cmd = (%nk:command-list-begin ,ctx) then (%nk:command-list-next ,ctx ,cmd)
+    `(loop for ,cmd = (%nuklear:command-list-begin ,ctx) then (%nuklear:command-list-next ,ctx ,cmd)
            until (cffi-sys:null-pointer-p ,cmd)
            do (progn ,@body)
            finally (return (values)))))

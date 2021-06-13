@@ -4,16 +4,23 @@
   :author "Pavel Korolev"
   :mailto "dev@borodust.org"
   :license "MIT"
-  :depends-on (:alexandria :cffi :claw :claw-utils :cffi-c-ref)
+  :depends-on (:alexandria :cffi :cffi-c-ref :bodge-nuklear-bindings)
   :serial t
   :pathname "src/"
   :components ((:file "packages")
-               (:static-file "bodge_nuklear.h")
-               (:file "claw")
-               (:file "nuklear")
-               (:module :spec)
-               (:module :lib)
-	       (:module :nuklear-lib :pathname "lib/nuklear/")))
+               (:file "nuklear")))
+
+
+(asdf:defsystem :bodge-nuklear/wrapper
+  :description "Wrapper over Nuklear IM GUI library"
+  :version "1.0.0"
+  :author "Pavel Korolev"
+  :mailto "dev@borodust.org"
+  :license "MIT"
+  :depends-on (:alexandria :cffi :claw :claw-utils :cffi-c-ref)
+  :serial t
+  :components ((:file "src/claw")
+	       (:module :nuklear-lib :pathname "src/lib/nuklear/")))
 
 
 (asdf:defsystem :bodge-nuklear/example
@@ -22,7 +29,7 @@
   :author "Pavel Korolev"
   :mailto "dev@borodust.org"
   :license "MIT"
-  :depends-on (:alexandria :cl-opengl :claw :bodge-host
+  :depends-on (:alexandria :cl-opengl :bodge-host
                :bodge-glad :nuklear-blob :bodge-nuklear :nuklear-renderer-blob
                :bodge-nuklear-renderer :bordeaux-threads :cl-muth :bodge-libc-essentials)
   :pathname "src/"
