@@ -83,7 +83,7 @@
     (%nuklear:input-begin nk-context)
     (let* ((cursor (bodge-host:cursor-position app))
            (cursor-x (floor (bodge-host:x cursor)))
-           (cursor-y (floor (bodge-host:y cursor))))
+           (cursor-y (- *window-height* (floor (bodge-host:y cursor)))))
       (%nuklear:input-button nk-context :left cursor-x cursor-y
                         (case (bodge-host:mouse-button-state app :left)
                           (:pressed %nuklear:+true+)
